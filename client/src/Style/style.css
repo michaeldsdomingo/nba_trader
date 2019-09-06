@@ -1,0 +1,65 @@
+ul {
+    float: left;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    background-color: rgb(0, 0, 0);
+    width: 100%;
+}
+
+li {
+    float: left;
+    display: block;
+    padding: 12px;
+    background-color: rgb(0, 0, 0);
+    font-size: 2em;
+    color: white;
+    
+}
+
+li a {
+    color: white;
+    
+}
+
+.align-right {
+    float: right;
+}
+
+input {
+    background-color: blue;
+}
+
+#title {
+    margin-left: 10px;
+}
+
+#login {
+    margin-right: 10px;
+}
+
+label {
+    color: black;
+    width: 11.1111%;
+    
+}
+
+#stats {
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+#table {
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.yahoo-image {
+    height: 40px;
+    
+}
