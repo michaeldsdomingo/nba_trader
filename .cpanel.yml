@@ -1,0 +1,6 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/micheyjd/public_html/nba_trader/
+    - /bin/cp -R client/build $DEPLOYPATH
+    - /bin/cp -R backend/ $DEPLOYPATH
