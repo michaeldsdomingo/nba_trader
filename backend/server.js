@@ -24,6 +24,10 @@ app.get('/', (req,res) => {
     
 })
 
+app.get('/hello', (req,res) => {
+    res.send("hello");
+})
+
 
 app.listen(80, () => console.log('Listening on port 80'));
 
