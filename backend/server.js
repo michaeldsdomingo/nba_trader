@@ -28,6 +28,57 @@ app.get('/hello', (req,res) => {
     res.send("hello");
 })
 
+app.post('/getPlayers', (req,res) => {
+    let data = [];
+
+
+    let funcAxios = (start) => {
+        return axios({
+          //proxy url
+          url: 'https://fantasysports.yahooapis.com/fantasy/v2/league/nba.l.187759/players;status=T;start=' + start + '/stats?format=json',
+          method: 'get',
+          withCredentials: false,
+          headers: {
+            'Authorization': 'Bearer ' + req.bodyaccessToken,
+            
+          }
+          
+        })
+      }
+      let funcThen = (val) => {
+        
+        
+        return function(response) {
+          
+          
+          if (response.data['fantasy_content']['league'][1]['players']['count'] != undefined) {
+                     
+            data = data.concat(response.data['fantasy_content']['league'][1]['players'])
+            
+  
+            
+            funcAxios(val + 25).then(funcThen(val + 25));
+            
+          }
+          else {
+            // stateSetter(data);
+            console.log("finished")
+            res.send("done")
+          }
+        }
+        
+      };
+      let funcError = (error) => {
+        console.log(error);
+        cont = false
+      }
+  
+      // Chains get request to obtain all players
+      funcAxios(1).then(funcThen(1)).catch( error => {
+        console.log(error);
+      });
+})
+
 
 app.listen(81, () => console.log('Listening on port 81'));
 

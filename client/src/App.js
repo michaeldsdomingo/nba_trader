@@ -255,50 +255,61 @@ class App extends Component {
       
 
     }
-    let funcAxios = (start) => {
-      return axios({
-        //proxy url
-        url: 'https://fantasysports.yahooapis.com/fantasy/v2/league/nba.l.187759/players;status=T;start=' + start + '/stats?format=json',
-        method: 'get',
-        withCredentials: false,
-        headers: {
-          'Authorization': 'Bearer ' + this.state.accessToken,
+
+    axios.post('/getPlayers', {
+      accessToken: this.state.accessToken
+    })
+    .then( (response) => {
+      console.log(response);
+    })
+    .catch( (error) => {
+      console.log(error)
+    })
+
+    // let funcAxios = (start) => {
+    //   return axios({
+    //     //proxy url
+    //     url: 'https://fantasysports.yahooapis.com/fantasy/v2/league/nba.l.187759/players;status=T;start=' + start + '/stats?format=json',
+    //     method: 'get',
+    //     withCredentials: false,
+    //     headers: {
+    //       'Authorization': 'Bearer ' + this.state.accessToken,
           
-        }
+    //     }
         
-      })
-    }
-    let funcThen = (val) => {
+    //   })
+    // }
+    // let funcThen = (val) => {
       
       
-      return function(response) {
+    //   return function(response) {
         
         
-        if (response.data['fantasy_content']['league'][1]['players']['count'] != undefined) {
+    //     if (response.data['fantasy_content']['league'][1]['players']['count'] != undefined) {
                    
-          data = data.concat(response.data['fantasy_content']['league'][1]['players'])
+    //       data = data.concat(response.data['fantasy_content']['league'][1]['players'])
           
 
           
-          funcAxios(val + 25).then(funcThen(val + 25));
+    //       funcAxios(val + 25).then(funcThen(val + 25));
           
-        }
-        else {
-          stateSetter(data);
+    //     }
+    //     else {
+    //       stateSetter(data);
           
-        }
-      }
+    //     }
+    //   }
       
-    };
-    let funcError = (error) => {
-      console.log(error);
-      cont = false
-    }
+    // };
+    // let funcError = (error) => {
+    //   console.log(error);
+    //   cont = false
+    // }
 
-    // Chains get request to obtain all players
-    funcAxios(1).then(funcThen(1)).catch( error => {
-      console.log(error);
-    });
+    // // Chains get request to obtain all players
+    // funcAxios(1).then(funcThen(1)).catch( error => {
+    //   console.log(error);
+    // });
     
     
 
