@@ -9,6 +9,9 @@ class Navbar extends Component {
         axios.get('/hello').then( (response) => {
             console.log(response);
         })
+        .catch( (error) => {
+            console.log(error);
+        })
     }
 
     render() {
