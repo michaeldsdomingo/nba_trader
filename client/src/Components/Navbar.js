@@ -6,7 +6,7 @@ import axios from 'axios';
 class Navbar extends Component {
     hello = () => {
         console.log('hello world');
-        axios.get('/hello').then( (response) => {
+        axios.get('https://nbatrader.michaeldomingo.dev/hello').then( (response) => {
             console.log(response);
         })
         .catch( (error) => {
