@@ -16,7 +16,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 // Allows the app to use the routes from backend/routes/oauth.js
-// app.use('/oauth', oauth);
+app.use('/oauth', oauth);
 
 
 app.get('/', (req,res) => {
