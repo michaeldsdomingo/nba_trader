@@ -258,7 +258,7 @@ class App extends Component {
     let funcAxios = (start) => {
       return axios({
         //proxy url
-        url: proxyURL + 'https://fantasysports.yahooapis.com/fantasy/v2/league/nba.l.187759/players;status=T;start=' + start + '/stats?format=json',
+        url: 'https://fantasysports.yahooapis.com/fantasy/v2/league/nba.l.187759/players;status=T;start=' + start + '/stats?format=json',
         method: 'get',
         withCredentials: false,
         headers: {
