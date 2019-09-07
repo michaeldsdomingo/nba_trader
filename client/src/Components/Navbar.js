@@ -16,6 +16,7 @@ class Navbar extends Component {
                             </img>
                             Login
                         </a>
+                        <a href="/hello">Hello</a>
                     </li>
      
                 </ul>
