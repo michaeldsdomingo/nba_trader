@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
 // import '../App.js/index.js';
 import '../Style/style.css'
+import axios from 'axios';
 
 class Navbar extends Component {
+    hello = () => {
+        console.log('hello world');
+        axios.get('/hello').then( (response) => {
+            console.log(response);
+        })
+    }
+
     render() {
         return (
             <div>
@@ -16,7 +24,7 @@ class Navbar extends Component {
                             </img>
                             Login
                         </a>
-                        <a href="/hello">Hello</a>
+                        <a onClick={this.hello}>Hello</a>
                     </li>
      
                 </ul>
