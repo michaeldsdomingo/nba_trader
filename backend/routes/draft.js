@@ -3,7 +3,13 @@ const router = express.Router();
 const axios = require('axios');
 
 router.get('/', (req,res) => {
-    res.send('you are now in draft endpoint')
+    axios.get('https://www.fantasybasketballnerd.com/service/draft-projections')
+    .then( (response) => {
+        res.send(response);
+    })
+    .catch( (error) => {
+        res.send(error);
+    })
 })
 
 module.exports = router;
