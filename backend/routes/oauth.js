@@ -5,7 +5,7 @@ const qs = require('qs');
 
 const clientID = 'dj0yJmk9NmMwb3doYmFxMGF5JmQ9WVdrOVdHTlFjR2xyTm1jbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWIx';
 const clientSecret = '0e6790c003224688cc9ca98002307af88a9be5b4';
-const redirectUri = 'https://nbatrader.michaeldomingo.dev/oauth/redirect';
+const redirectUri = 'https://nbatrader.michaeldomingo.dev/';
 const authURL = 'https://api.login.yahoo.com/oauth2/request_auth';
 const accessTokenURL = 'https://api.login.yahoo.com/oauth2/get_token';
 const clientHash = 'MGU2NzkwYzAwMzIyNDY4OGNjOWNhOTgwMDIzMDdhZjg4YTliZTViNA==';
