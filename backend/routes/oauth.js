@@ -29,7 +29,7 @@ router.get('/login', (req,res) => {
 router.all('/redirect', (req,res) => {
     let whatever;
     let accessCode = req.query.code;
-    // let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
+    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
     // axios({
     //     url: accessTokenURL,
     //     method: 'post',
