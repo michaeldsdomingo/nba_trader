@@ -59,7 +59,7 @@ router.get('/token', (req,res) => {
 })
 
 router.get('/nbatrader.michaeldomingo.dev', (req,res) => {
-    res.redirect('/');
+    res.send('hello world');
 })
 
 module.exports = router;
