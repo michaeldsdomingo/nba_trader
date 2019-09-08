@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 const axios = require('axios');
 const qs = require('qs');
 const oauth = require('./routes/oauth');
+const draft = require('./routes/draft');
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 // Allows the app to use the routes from backend/routes/oauth.js
 app.use('/oauth', oauth);
+app.use('/draft', draft);
 
 
 // app.get('/', (req,res) => {
