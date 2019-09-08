@@ -26,31 +26,31 @@ router.get('/login', (req,res) => {
 
 // After the user authenticates, he will be redirected to this route
 // which will send a post request to yahoo and retrieve the access and refresh token
-router.get('/redirect', (req,res) => {
+router.all('/redirect', (req,res) => {
     let whatever;
     let accessCode = req.query.code;
-    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
-    axios({
-        url: accessTokenURL,
-        method: 'post',
-        headers: {
-            'Authorization': `Basic ${clientHash}`,
-            'Content-Type': `application/x-www-form-urlencoded`,
+    // let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
+    // axios({
+    //     url: accessTokenURL,
+    //     method: 'post',
+    //     headers: {
+    //         'Authorization': `Basic ${clientHash}`,
+    //         'Content-Type': `application/x-www-form-urlencoded`,
             
-        },
-        data: {
-            'grant_type': 'authorization_code', 
-            'redirect_uri': redirectUri, 
-            'code': accessCode
-        },
-        response_type: 'json'
-    })
-    .then( (response) => {
-        whatever = response;
-    })
-    .catch( (error) => {
-        whatever = error;
-    })
+    //     },
+    //     data: {
+    //         'grant_type': 'authorization_code', 
+    //         'redirect_uri': redirectUri, 
+    //         'code': accessCode
+    //     },
+    //     response_type: 'json'
+    // })
+    // .then( (response) => {
+    //     whatever = response;
+    // })
+    // .catch( (error) => {
+    //     whatever = error;
+    // })
     // let xml = new XMLHttpRequest();
     // xml.open("POST", accessTokenURL,true);
     // xml.setRequestHeader('Authorization','Basic ' + clientHash);
