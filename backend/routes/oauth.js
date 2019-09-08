@@ -49,13 +49,17 @@ router.get('/redirect', (req,res) => {
         }
     };
     xml.send(qs.stringify(bodyParams)); 
-    res.redirect('https://google.com');
+    // res.redirect('https://google.com');
 })
 
 
 // Returns the access token to client side
 router.get('/token', (req,res) => {
     return res.json({'accessToken': accessToken})
+})
+
+router.get('/nbatrader.michaeldomingo.dev', (req,res) => {
+    res.redirect('/');
 })
 
 module.exports = router;
