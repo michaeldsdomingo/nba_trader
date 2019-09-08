@@ -27,29 +27,30 @@ router.get('/login', (req,res) => {
 // which will send a post request to yahoo and retrieve the access and refresh token
 router.get('/redirect', (req,res) => {
     let accessCode = req.query.code;
-    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
+    // let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
     
-    let xml=new XMLHttpRequest();
-    xml.open("POST", accessTokenURL,true);
-    xml.setRequestHeader('Authorization','Basic ' + clientHash);
-    xml.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    // let xml=new XMLHttpRequest();
+    // xml.open("POST", accessTokenURL,true);
+    // xml.setRequestHeader('Authorization','Basic ' + clientHash);
+    // xml.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
     
-    xml.onreadystatechange=function(){
-        if( xml.readyState == 4 && xml.status == 200) {
-            let json = JSON.parse(xml.responseText);
-            accessToken = json['access_token'];
-            let refreshToken = json['refresh_token'];
-            console.log(json);
-            var string = encodeURIComponent(accessToken);
-        }
-        else {
-            console.log(xml.status);
-            console.log(xml.responseText);
-            console.log("Getting access token Unsucessful")
-        }
-    };
-    xml.send(qs.stringify(bodyParams)); 
-    res.redirect('nbatrader.michaeldomingo.dev');
+    // xml.onreadystatechange=function(){
+    //     if( xml.readyState == 4 && xml.status == 200) {
+    //         let json = JSON.parse(xml.responseText);
+    //         accessToken = json['access_token'];
+    //         let refreshToken = json['refresh_token'];
+    //         console.log(json);
+    //         var string = encodeURIComponent(accessToken);
+    //     }
+    //     else {
+    //         console.log(xml.status);
+    //         console.log(xml.responseText);
+    //         console.log("Getting access token Unsucessful")
+    //     }
+    // };
+    // xml.send(qs.stringify(bodyParams)); 
+    // res.redirect('nbatrader.michaeldomingo.dev');
+    res.send(accessCode);
 })
 
 
