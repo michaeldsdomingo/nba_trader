@@ -30,27 +30,27 @@ router.get('/redirect', (req,res) => {
     let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
     
     let xml = new XMLHttpRequest();
-    // xml.open("POST", accessTokenURL,true);
-    // xml.setRequestHeader('Authorization','Basic ' + clientHash);
-    // xml.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    xml.open("POST", accessTokenURL,true);
+    xml.setRequestHeader('Authorization','Basic ' + clientHash);
+    xml.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
     
-    // xml.onreadystatechange=function(){
-    //     if( xml.readyState == 4 && xml.status == 200) {
-    //         let json = JSON.parse(xml.responseText);
-    //         accessToken = json['access_token'];
-    //         let refreshToken = json['refresh_token'];
-    //         console.log(json);
-    //         var string = encodeURIComponent(accessToken);
-    //     }
-    //     else {
-    //         console.log(xml.status);
-    //         console.log(xml.responseText);
-    //         console.log("Getting access token Unsucessful")
-    //     }
-    // };
-    // xml.send(qs.stringify(bodyParams)); 
+    xml.onreadystatechange=function(){
+        if( xml.readyState == 4 && xml.status == 200) {
+            let json = JSON.parse(xml.responseText);
+            accessToken = json['access_token'];
+            let refreshToken = json['refresh_token'];
+            console.log(json);
+            var string = encodeURIComponent(accessToken);
+        }
+        else {
+            console.log(xml.status);
+            console.log(xml.responseText);
+            console.log("Getting access token Unsucessful")
+        }
+    };
+    xml.send(qs.stringify(bodyParams)); 
     // res.redirect('https://nbatrader.michaeldomingo.dev');
-    res.send(accessCode);
+    // res.send(accessCode);
 })
 
 
