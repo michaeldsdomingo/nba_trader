@@ -38,6 +38,11 @@ router.get('/redirect', (req,res) => {
             'Content-Type': `application/x-www-form-urlencoded`,
             
         },
+        data: {
+            'grant_type': 'authorization_code', 
+            'redirect_uri': redirectUri, 
+            'code': accessCode
+        },
         response_type: 'json'
     })
     .then( (response) => {
@@ -68,7 +73,7 @@ router.get('/redirect', (req,res) => {
     // xml.send(qs.stringify(bodyParams)); 
     // res.redirect('https://nbatrader.michaeldomingo.dev');
     // res.send(accessToken);
-    res.send(whatever);
+    res.send("");
 })
 
 
