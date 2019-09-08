@@ -49,7 +49,7 @@ router.get('/', (req,res) => {
         }
     };
     xml.send(qs.stringify(bodyParams)); 
-    res.redirect('http://localhost:3000');
+    res.redirect('nbatrader.michaeldomingo.dev');
 })
 
 
