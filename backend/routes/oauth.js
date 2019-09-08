@@ -1,5 +1,5 @@
 const express = require('express');
-// const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
+const XMLHttpRequest = require('xmlhttprequest').XMLHttpRequest;
 const router = express.Router();
 const qs = require('qs');
 
