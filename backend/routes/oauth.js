@@ -49,7 +49,7 @@ router.get('/redirect', (req,res) => {
     //     }
     // };
     // xml.send(qs.stringify(bodyParams)); 
-    res.redirect('https://google.com');
+    // res.redirect('https://google.com');
 })
 
 
@@ -58,8 +58,8 @@ router.get('/token', (req,res) => {
     return res.json({'accessToken': accessToken})
 })
 
-router.get('/nbatrader.michaeldomingo.dev', (req,res) => {
-    res.send('hello world');
-})
+// router.get('/nbatrader.michaeldomingo.dev', (req,res) => {
+//     res.send('hello world');
+// })
 
 module.exports = router;
