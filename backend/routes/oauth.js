@@ -49,7 +49,7 @@ router.get('/redirect', (req,res) => {
         }
     };
     xml.send(qs.stringify(bodyParams)); 
-    res.redirect('nbatrader.michaeldomingo.dev');
+    res.redirect('https://nbatrader.michaeldomingo.dev/');
 })
 
 
