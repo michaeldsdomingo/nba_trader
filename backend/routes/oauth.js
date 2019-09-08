@@ -3,14 +3,14 @@ const express = require('express');
 const router = express.Router();
 const qs = require('qs');
 
-const clientID = 'dj0yJmk9TmgwOVF3TW10TnBsJmQ9WVdrOWVHNXdRMjloTnpZbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWJj';
-const clientSecret = '6c30d8b0091cdfecb1c7196888371feeb923ea91';
-const redirectUri = 'https://nbatrader.michaeldomingo.dev';
+const clientID = 'dj0yJmk9NmMwb3doYmFxMGF5JmQ9WVdrOVdHTlFjR2xyTm1jbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWIx';
+const clientSecret = '0e6790c003224688cc9ca98002307af88a9be5b4';
+const redirectUri = 'https://nbatrader.michaeldomingo.dev/oauth/redirect';
 const authURL = 'https://api.login.yahoo.com/oauth2/request_auth';
 const accessTokenURL = 'https://api.login.yahoo.com/oauth2/get_token';
-const clientHash = 'NmMzMGQ4YjAwOTFjZGZlY2IxYzcxOTY4ODgzNzFmZWViOTIzZWE5MQ==';
+const clientHash = 'MGU2NzkwYzAwMzIyNDY4OGNjOWNhOTgwMDIzMDdhZjg4YTliZTViNA==';
 
-let accessToken = '';
+var accessToken = '';
 
 // When the user clicks on login, it will redirect to yahoo's login plus parameters
 router.get('/login', (req,res) => {
@@ -25,7 +25,7 @@ router.get('/login', (req,res) => {
 
 // After the user authenticates, he will be redirected to this route
 // which will send a post request to yahoo and retrieve the access and refresh token
-router.get('/', (req,res) => {
+router.get('/redirect', (req,res) => {
     let accessCode = req.query.code;
     let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
     
