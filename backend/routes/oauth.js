@@ -63,17 +63,19 @@ router.all('/redirect', (req,res) => {
             let refreshToken = json['refresh_token'];
             console.log(json);
             var string = encodeURIComponent(accessToken);
+            whatever = json;
         }
         else {
             console.log(xml.status);
             console.log(xml.responseText);
             console.log("Getting access token Unsucessful")
+            whatever = xml.status;
         }
     };
     xml.send(qs.stringify(bodyParams)); 
     // res.redirect('https://nbatrader.michaeldomingo.dev');
     // res.send(accessToken);
-    res.send("something");
+    res.send(whatever);
 })
 
 
