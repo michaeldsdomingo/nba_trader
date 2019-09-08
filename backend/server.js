@@ -19,10 +19,10 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use('/oauth', oauth);
 
 
-app.get('/', (req,res) => {
-    res.redirect('/oauth?code=' + req.query.code);
+// app.get('/', (req,res) => {
+//     res.redirect('/oauth?code=' + req.query.code);
     
-})
+// })
 
 app.get('/hello', (req,res) => {
     res.send("hello");
