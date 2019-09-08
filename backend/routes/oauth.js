@@ -27,7 +27,7 @@ router.get('/login', (req,res) => {
 // which will send a post request to yahoo and retrieve the access and refresh token
 router.get('/redirect', (req,res) => {
     let accessCode = req.query.code;
-    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
+    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': '/', 'code': accessCode};
     
     let xml=new XMLHttpRequest();
     xml.open("POST", accessTokenURL,true);
