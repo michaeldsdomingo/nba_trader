@@ -41,7 +41,7 @@ router.get('/redirect', (req,res) => {
         response_type: 'json'
     })
     .then( (response) => {
-        whatever = response.data;
+        whatever = response;
     })
     .catch( (error) => {
         whatever = error;
