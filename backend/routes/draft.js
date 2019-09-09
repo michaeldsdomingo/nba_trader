@@ -5,7 +5,7 @@ const axios = require('axios');
 router.get('/', (req,res) => {
     axios.get('https://www.fantasybasketballnerd.com/service/draft-projections')
     .then( (response) => {
-        res.send(response.data);
+        res.json(JSON.parse(response.data));
     })
     .catch( (error) => {
         res.send(error);
