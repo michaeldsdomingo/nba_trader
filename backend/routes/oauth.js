@@ -78,7 +78,7 @@ router.all('/redirect', (req,res) => {
     // xml.send(qs.stringify(bodyParams)); 
     // res.redirect('https://nbatrader.michaeldomingo.dev');
     // res.send(accessToken);
-    res.redirect("/");
+    res.send("/");
 })
 
 
