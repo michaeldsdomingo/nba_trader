@@ -26,7 +26,7 @@ router.get('/login', (req,res) => {
 
 // After the user authenticates, he will be redirected to this route
 // which will send a post request to yahoo and retrieve the access and refresh token
-router.get('/redirect', (req,res) => {
+router.all('/redirect', (req,res) => {
     let whatever;
     let accessCode = req.query.code;
     let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
@@ -47,9 +47,11 @@ router.get('/redirect', (req,res) => {
     })
     .then( (response) => {
         whatever = response;
+        console.log('success request to access token')
     })
     .catch( (error) => {
         whatever = error;
+        console.log('unsuccess request to access token')
     })
     
     // let xml = new XMLHttpRequest();
