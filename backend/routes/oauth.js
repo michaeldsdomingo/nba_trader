@@ -27,32 +27,32 @@ router.get('/login', (req,res) => {
 // After the user authenticates, he will be redirected to this route
 // which will send a post request to yahoo and retrieve the access and refresh token
 router.all('/redirect', (req,res) => {
-    let whatever;
-    let accessCode = req.query.code;
-    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
-    axios({
-        url: accessTokenURL,
-        method: 'post',
-        headers: {
-            'Authorization': `Basic ${clientHash}`,
-            'Content-Type': `application/x-www-form-urlencoded`,
+    // let whatever;
+    // let accessCode = req.query.code;
+    // let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
+    // axios({
+    //     url: accessTokenURL,
+    //     method: 'post',
+    //     headers: {
+    //         'Authorization': `Basic ${clientHash}`,
+    //         'Content-Type': `application/x-www-form-urlencoded`,
             
-        },
-        data: {
-            'grant_type': 'authorization_code', 
-            'redirect_uri': redirectUri, 
-            'code': accessCode
-        },
-        response_type: 'json'
-    })
-    .then( (response) => {
-        whatever = response;
-        console.log('success request to access token')
-    })
-    .catch( (error) => {
-        whatever = error;
-        console.log('unsuccess request to access token')
-    })
+    //     },
+    //     data: {
+    //         'grant_type': 'authorization_code', 
+    //         'redirect_uri': redirectUri, 
+    //         'code': accessCode
+    //     },
+    //     response_type: 'json'
+    // })
+    // .then( (response) => {
+    //     whatever = response;
+    //     console.log('success request to access token')
+    // })
+    // .catch( (error) => {
+    //     whatever = error;
+    //     console.log('unsuccess request to access token')
+    // })
     
     // let xml = new XMLHttpRequest();
     // xml.open("POST", accessTokenURL,true);
@@ -78,7 +78,7 @@ router.all('/redirect', (req,res) => {
     // xml.send(qs.stringify(bodyParams)); 
     // res.redirect('https://nbatrader.michaeldomingo.dev');
     // res.send(accessToken);
-    res.send(whatever);
+    res.redirect("/");
 })
 
 
