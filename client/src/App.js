@@ -72,7 +72,7 @@ class App extends Component {
   // Get request to server's side /oauth/token to retrieve the accessToken
   getToken() {
     axios({
-      url: '/oauth/token',
+      url: '/oauth/redirect',
       method: 'get',
     })
     .then(response => {
