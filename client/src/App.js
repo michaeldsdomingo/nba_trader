@@ -6,7 +6,10 @@ import '../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.c
 import BootstrapTable from 'react-bootstrap-table-next';
 import calcRankings from './functions';
 import Stats from './Components/Stats.js'
-import Navbar from './Components/Navbar.js'
+import Navbar from './Components/Navbar.js';
+import Draft from './Components/Draft';
+import { BrowserRouter as Router, Route, Link} from "react-router-dom";
+
 
 const axios = require('axios');
 const proxyURL = 'https://cors-anywhere.herokuapp.com/';
@@ -319,6 +322,16 @@ class App extends Component {
     console.log(this.state.data[0][0]['player'][0][2]['name']['full']);
   }
 
+  test = () => {
+    axios.get('/oauth/test')
+    .then( res => {
+      console.log(res.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+  }
+
   render() {
     var products = [
       {
@@ -336,18 +349,24 @@ class App extends Component {
     
     return (
       <div>
-        <Navbar />
-        <br/>
-        <button onClick={this.getToken}>Access Token</button>
-        <p >{this.state.accessToken}</p>
-        <button onClick={this.getAllTakenPlayersStats}>Get Stats</button>
-        <br></br>
-        <br></br>
-        <Stats change={this.checkBoxTest} stats={this.state.stats}/>
+        <Router>
+          <Navbar />
+          <br/>
+          <button onClick={this.getToken}>Access Token</button>
+          <p >{this.state.accessToken}</p>
+          <button onClick={this.getAllTakenPlayersStats}>Get Stats</button>
+          <br></br>
+          <br></br>
+          <Stats change={this.checkBoxTest} stats={this.state.stats}/>
 
-        <div id='table'>
-          <BootstrapTable  striped keyField='id' data={ this.state.products } columns={ this.state.columns }  />
-        </div>
+          <div id='table'>
+            <BootstrapTable  striped keyField='id' data={ this.state.products } columns={ this.state.columns }  />
+          </div>
+          <button onClick={this.test}>Test</button>
+
+          <Route path='/draft' component={Draft} />
+        </Router>
+        
         
         
       </div>

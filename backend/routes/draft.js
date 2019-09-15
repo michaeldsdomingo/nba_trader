@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const axios = require('axios');
 
-router.get('/', (req,res) => {
+router.get('/projections', (req,res) => {
     axios.get('https://www.fantasybasketballnerd.com/service/draft-projections')
     .then( (response) => {
-        res.json(JSON.parse(response.data));
+        res.send(response.data);
     })
     .catch( (error) => {
         res.send(error);

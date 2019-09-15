@@ -12,7 +12,7 @@ const draft = require('./routes/draft');
 const app = express();
 
 
-// Allows data to be avaialbe in the req.body in json
+// Allows data to be available in the req.body in json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 

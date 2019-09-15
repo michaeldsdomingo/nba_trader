@@ -85,6 +85,10 @@ router.get('/token', (req,res) => {
     return res.json({'accessToken': accessToken})
 })
 
+router.get('/test', (req,res) => {
+    res.send('test success')
+})
+
 // router.get('/nbatrader.michaeldomingo.dev', (req,res) => {
 //     res.send('hello world');
 // })
