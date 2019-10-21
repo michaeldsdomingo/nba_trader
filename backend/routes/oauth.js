@@ -84,7 +84,7 @@ router.get('/redirect', (req,res) => {
     // res.redirect('http://localhost:3000');
     // res.send(accessToken);
     // res.send(whatever);
-    res.send(accessCode);
+    res.send(whatever);
 })
 
 
