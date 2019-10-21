@@ -81,7 +81,7 @@ router.get('/redirect', (req,res) => {
     };
     xml.send(qs.stringify(bodyParams)); 
     // res.send(accessToken);
-    // res.redirect('http://localhost:3000');
+    res.redirect('https://nbatrader.michaeldomingo.dev');
     // res.send(accessToken);
     // res.send(whatever);
     res.send(whatever);
