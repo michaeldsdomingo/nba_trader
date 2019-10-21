@@ -72,7 +72,7 @@ class App extends Component {
   // Get request to server's side /oauth/token to retrieve the accessToken
   getToken() {
     axios({
-      url: '/oauth/redirect',
+      url: '/oauth/token',
       method: 'get',
     })
     .then(response => {
@@ -82,7 +82,7 @@ class App extends Component {
       
     })
     .catch(error => {
-      console.log('error');
+      console.log(error);
     })
   }
 
@@ -332,6 +332,16 @@ class App extends Component {
     })
   }
 
+  handleRedirect = () => {
+    axios.get('/oauth/redirect')
+      .then( res => {
+        console.log('success')
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
+
   render() {
     var products = [
       {
@@ -352,6 +362,7 @@ class App extends Component {
         <Router>
           <Navbar />
           <br/>
+          <button onClick={this.handleRedirect}>Redirect</button>
           <button onClick={this.getToken}>Access Token</button>
           <p >{this.state.accessToken}</p>
           <button onClick={this.getAllTakenPlayersStats}>Get Stats</button>

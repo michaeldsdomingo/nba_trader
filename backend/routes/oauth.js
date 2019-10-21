@@ -8,6 +8,7 @@ const clientID = 'dj0yJmk9NmMwb3doYmFxMGF5JmQ9WVdrOVdHTlFjR2xyTm1jbWNHbzlNQS0tJn
 const clientSecret = '0e6790c003224688cc9ca98002307af88a9be5b4';
 const redirectUri = 'https://nbatrader.michaeldomingo.dev/oauth/redirect';
 const redirectUri1 = 'https://nbatrader.michaeldomingo.dev/';
+const redirectUri2 = 'http://localhost:3000/oauth/redirect';
 const authURL = 'https://api.login.yahoo.com/oauth2/request_auth';
 const accessTokenURL = 'https://api.login.yahoo.com/oauth2/get_token';
 const clientHash = 'ZGoweUptazlObU13YjNkb1ltRnhNR0Y1Sm1ROVdWZHJPVmRIVGxGalIyeHlUbTFqYldOSGJ6bE5RUzB0Sm5NOVkyOXVjM1Z0WlhKelpXTnlaWFFtYzNZOU1DWjRQV0l4OjBlNjc5MGMwMDMyMjQ2ODhjYzljYTk4MDAyMzA3YWY4OGE5YmU1YjQ=';
@@ -27,59 +28,63 @@ router.get('/login', (req,res) => {
 
 // After the user authenticates, he will be redirected to this route
 // which will send a post request to yahoo and retrieve the access and refresh token
-router.all('/redirect', (req,res) => {
+router.get('/redirect', (req,res) => {
     let whatever;
     let accessCode = req.query.code;
-    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri1, 'code': accessCode};
-    axios({
-        url: accessTokenURL,
-        method: 'post',
-        headers: {
-            'Authorization': `Basic ${clientHash}`,
-            'Content-Type': `application/x-www-form-urlencoded`,
+    let test = 'hello'
+    console.log('code is: ', accessCode);
+    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
+    // axios({
+    //     url: accessTokenURL,
+    //     method: 'post',
+    //     headers: {
+    //         'Authorization': `Basic ${clientHash}`,
+    //         'Content-Type': `application/x-www-form-urlencoded`,
             
-        },
-        data: {
-            'grant_type': 'authorization_code', 
-            'redirect_uri': redirectUri1, 
-            'code': accessCode
-        },
-        response_type: 'json'
-    })
-    .then( (response) => {
-        whatever = response;
-        console.log('success request to access token')
-    })
-    .catch( (error) => {
-        whatever = error;
-        console.log('unsuccess request to access token')
-    })
+    //     },
+    //     data: {
+    //         'grant_type': 'authorization_code', 
+    //         'redirect_uri': redirectUri, 
+    //         'code': accessCode
+    //     },
+    //     response_type: 'json'
+    // })
+    // .then( (response) => {
+    //     whatever = response;
+    //     console.log('success request to access token')
+    // })
+    // .catch( (error) => {
+    //     whatever = error;
+    //     console.log('unsuccess request to access token: ', error)
+    // })
     
-    // let xml = new XMLHttpRequest();
-    // xml.open("POST", accessTokenURL,true);
-    // xml.setRequestHeader('Authorization','Basic ' + clientHash);
-    // xml.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    let xml = new XMLHttpRequest();
+    xml.open("POST", accessTokenURL,true);
+    xml.setRequestHeader('Authorization','Basic ' + clientHash);
+    xml.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
     
-    // xml.onreadystatechange=function(){
-    //     if( xml.readyState == 4 && xml.status == 200) {
-    //         let json = JSON.parse(xml.responseText);
-    //         accessToken = json['access_token'];
-    //         let refreshToken = json['refresh_token'];
-    //         console.log(json);
-    //         var string = encodeURIComponent(accessToken);
-    //         whatever = json;
-    //     }
-    //     else {
-    //         console.log(xml.status);
-    //         console.log(xml.responseText);
-    //         console.log("Getting access token Unsucessful")
-    //         whatever = xml.responseText;
-    //     }
-    // };
-    // xml.send(qs.stringify(bodyParams)); 
-    // res.redirect('https://nbatrader.michaeldomingo.dev');
+    xml.onreadystatechange=function(){
+        if( xml.readyState == 4 && xml.status == 200) {
+            let json = JSON.parse(xml.responseText);
+            accessToken = json['access_token'];
+            let refreshToken = json['refresh_token'];
+            console.log(json);
+            var string = encodeURIComponent(accessToken);
+            whatever = json;
+        }
+        else {
+            console.log(xml.status);
+            console.log(xml.responseText);
+            console.log("Getting access token Unsucessful")
+            whatever = xml.responseText;
+        }
+    };
+    xml.send(qs.stringify(bodyParams)); 
     // res.send(accessToken);
-    res.send(whatever);
+    // res.redirect('http://localhost:3000');
+    // res.send(accessToken);
+    // res.send(whatever);
+    res.send(accessCode);
 })
 
 
