@@ -32,7 +32,8 @@ app.get('/hello', (req,res) => {
 
 app.post('/getPlayers', (req,res) => {
     let data = [];
-
+    let startNum = 1;
+    let cont = true;
 
     let funcAxios = (start) => {
         return axios({
@@ -41,7 +42,7 @@ app.post('/getPlayers', (req,res) => {
           method: 'get',
           withCredentials: false,
           headers: {
-            'Authorization': 'Bearer ' + req.bodyaccessToken,
+            'Authorization': 'Bearer ' + req.body.accessToken,
             
           }
           
@@ -65,7 +66,7 @@ app.post('/getPlayers', (req,res) => {
           else {
             // stateSetter(data);
             console.log("finished")
-            res.send("done")
+            res.send("done", data)
           }
         }
         
