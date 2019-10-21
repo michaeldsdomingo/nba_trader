@@ -26,7 +26,7 @@ class Navbar extends Component {
                     <li class='align-right' id='login'>
                         {/* develop: http://localhost:81/oauth/login */}
                         {/* production: /oauth/login */}
-                        <a href="http://localhost:81/oauth/login">
+                        <a href="/oauth/login">
                             <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYFaha-tCBSlfeFgNC14bGCcFxUutaA2SEq4EX2YrAO3k5KwBl' className='yahoo-image'>
                             </img>
                             Login

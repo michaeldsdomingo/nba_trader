@@ -335,7 +335,7 @@ class App extends Component {
   handleRedirect = () => {
     axios.get('/oauth/redirect')
       .then( res => {
-        console.log('success')
+        console.log('success', res.data)
       })
       .catch(err => {
         console.log(err);
@@ -362,7 +362,7 @@ class App extends Component {
         <Router>
           <Navbar />
           <br/>
-          <button onClick={this.handleRedirect}>Redirect</button>
+          <button onClick={this.handleRedirect}>Redirect1</button>
           <button onClick={this.getToken}>Access Token</button>
           <p >{this.state.accessToken}</p>
           <button onClick={this.getAllTakenPlayersStats}>Get Stats</button>
