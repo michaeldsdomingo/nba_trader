@@ -84,7 +84,7 @@ router.get('/redirect', (req,res) => {
     res.redirect('https://nbatrader.michaeldomingo.dev');
     // res.send(accessToken);
     // res.send(whatever);
-    res.send(whatever);
+    // res.send(whatever);
 })
 
 

@@ -362,7 +362,7 @@ class App extends Component {
         <Router>
           <Navbar />
           <br/>
-          <button onClick={this.handleRedirect}>Redirect3</button>
+          <button onClick={this.handleRedirect}>Redirect4</button>
           <button onClick={this.getToken}>Access Token</button>
           <p >{this.state.accessToken}</p>
           <button onClick={this.getAllTakenPlayersStats}>Get Stats</button>
