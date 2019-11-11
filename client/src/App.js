@@ -342,6 +342,26 @@ class App extends Component {
       })
   }
 
+  handlePlayer = () => {
+    axios.post('/player', {accessToken: this.state.accessToken})
+      .then(res => {
+        console.log(res.data)
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
+  firebaseTest = () => {
+    axios.get('/firebase/test')
+      .then(res => {
+        console.log(' firebase successful')
+      })
+      .catch(res => {
+        console.log('firebase unsuccessful')
+      })
+  }
+
   render() {
     var products = [
       {
@@ -362,6 +382,8 @@ class App extends Component {
         <Router>
           <Navbar />
           <br/>
+          <button onClick={this.firebaseTest}>Firebase</button>
+          <button onClick={this.handlePlayer}>Player1</button>
           <button onClick={this.handleRedirect}>Redirect4</button>
           <button onClick={this.getToken}>Access Token</button>
           <p >{this.state.accessToken}</p>

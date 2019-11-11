@@ -8,6 +8,7 @@ const axios = require('axios');
 const qs = require('qs');
 const oauth = require('./routes/oauth');
 const draft = require('./routes/draft');
+const firebase = require('./routes/firebase');
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 // Allows the app to use the routes from backend/routes/oauth.js
 app.use('/oauth', oauth);
 app.use('/draft', draft);
+app.use('/firebase', firebase)
 
 
 // app.get('/', (req,res) => {
@@ -82,6 +84,38 @@ app.post('/getPlayers', (req,res) => {
       });
 })
 
+app.post('/player', (req,res) => {
+    let data = [];
+    const getPlayers = (start) => {
+        axios({
+          url: 'https://fantasysports.yahooapis.com/fantasy/v2/league/nba.l.113877/players;count=30;status=A;sort=AR;start=' + start + ';stat1=S_PSR;sdir=1/stats?format=json',
+          method: 'get',
+          withCredentials: false,
+          headers: {
+            'Authorization': 'Bearer ' + req.body.accessToken,
+          }
+          
+        })
+        .then(response => {
+          data.push(response.data);
+          // if (start == 75) {
+          //   res.send(data);
+          // }
+          res.send(data);
+          
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
+
+    for(let i = 0; i < 1; i++) {
+      getPlayers(i * 25);
+    }
+    
+    // console.log(data);
+    
+})
 
 app.listen(80, () => console.log('Listening on port 80'));
 
