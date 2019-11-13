@@ -7,8 +7,10 @@ const axios = require('axios');
 const clientID = 'dj0yJmk9NmMwb3doYmFxMGF5JmQ9WVdrOVdHTlFjR2xyTm1jbWNHbzlNQS0tJnM9Y29uc3VtZXJzZWNyZXQmc3Y9MCZ4PWIx';
 const clientSecret = '0e6790c003224688cc9ca98002307af88a9be5b4';
 const redirectUri = 'https://nbatrader.michaeldomingo.dev/oauth/redirect';
-const redirectUri1 = 'https://nbatrader.michaeldomingo.dev/';
+const redirectUri1 = 'https://nbatrader.michaeldomingo.dev/oauth/redirect-local';
 const redirectUri2 = 'http://localhost:3000/oauth/redirect';
+const redirectUri3 = 'https://tolocalhost.com/';
+const redirectUri4 = 'http://localhost:81/oauth/redirect'
 const authURL = 'https://api.login.yahoo.com/oauth2/request_auth';
 const accessTokenURL = 'https://api.login.yahoo.com/oauth2/get_token';
 const clientHash = 'ZGoweUptazlObU13YjNkb1ltRnhNR0Y1Sm1ROVdWZHJPVmRIVGxGalIyeHlUbTFqYldOSGJ6bE5RUzB0Sm5NOVkyOXVjM1Z0WlhKelpXTnlaWFFtYzNZOU1DWjRQV0l4OjBlNjc5MGMwMDMyMjQ2ODhjYzljYTk4MDAyMzA3YWY4OGE5YmU1YjQ=';
@@ -20,7 +22,7 @@ router.get('/login', (req,res) => {
     
     var queryParams = qs.stringify({
         client_id: clientID,
-        redirect_uri: redirectUri,
+        redirect_uri: redirectUri1,
         response_type: 'code'
     })
     res.redirect(authURL + '?' + queryParams);
@@ -33,7 +35,7 @@ router.get('/redirect', (req,res) => {
     let accessCode = req.query.code;
     let test = 'hello'
     console.log('code is: ', accessCode);
-    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
+    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri1, 'code': accessCode};
     // axios({
     //     url: accessTokenURL,
     //     method: 'post',
@@ -80,12 +82,11 @@ router.get('/redirect', (req,res) => {
         }
     };
     xml.send(qs.stringify(bodyParams)); 
-    // res.send(accessToken);
+    //Development 'http://localhost:3000'
+    //Production 'https://nbatrader.michaeldomingo.dev'
     res.redirect('https://nbatrader.michaeldomingo.dev');
     // res.redirect('http://localhost:3000')
-    // res.send(accessToken);
-    // res.send(whatever);
-    // res.send(whatever);
+    
 })
 
 
@@ -98,8 +99,10 @@ router.get('/test', (req,res) => {
     res.send('test success')
 })
 
-// router.get('/nbatrader.michaeldomingo.dev', (req,res) => {
-//     res.send('hello world');
-// })
+router.get('/redirect-local', (req,res) => {
+    let accessCode = req.query.code;
+    console.log(accessCode);
+    res.redirect(`http://localhost:81/oauth/redirect/?code=${accessCode}`);
+})
 
 module.exports = router;

@@ -390,6 +390,7 @@ class App extends Component {
           <button onClick={this.getAllTakenPlayersStats}>Get Stats</button>
           <br></br>
           <br></br>
+          <a href="http://localhost:81/oauth/redirect-local/?code=test123">local</a>
           <Stats change={this.checkBoxTest} stats={this.state.stats}/>
 
           <div id='table'>

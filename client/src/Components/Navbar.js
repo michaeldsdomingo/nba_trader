@@ -20,7 +20,7 @@ class Navbar extends Component {
             <div>
                 <ul>
                     <li id='title'>
-                        Smart Trader
+                        Smart Trader2
                     </li>
                     <Link to='/draft'>Draft Picker</Link>
                     <li class='align-right' id='login'>
