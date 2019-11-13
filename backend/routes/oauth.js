@@ -84,8 +84,8 @@ router.get('/redirect', (req,res) => {
     xml.send(qs.stringify(bodyParams)); 
     //Development 'http://localhost:3000'
     //Production 'https://nbatrader.michaeldomingo.dev'
-    res.redirect('https://nbatrader.michaeldomingo.dev');
-    // res.redirect('http://localhost:3000')
+    // res.redirect('https://nbatrader.michaeldomingo.dev');
+    res.redirect('http://localhost:3000')
     
 })
 
