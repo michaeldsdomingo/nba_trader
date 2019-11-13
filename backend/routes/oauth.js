@@ -100,7 +100,7 @@ router.get('/test', (req,res) => {
 })
 
 router.get('/redirect-local', (req,res) => {
-    res.redirect(`http://localhost:81/oauth/redirect/?code=${accessCode}`);
+    
 
     let whatever;
     let accessCode = req.query.code;
