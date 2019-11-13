@@ -35,6 +35,77 @@ router.get('/redirect', (req,res) => {
     let accessCode = req.query.code;
     let test = 'hello'
     console.log('code is: ', accessCode);
+    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
+    // axios({
+    //     url: accessTokenURL,
+    //     method: 'post',
+    //     headers: {
+    //         'Authorization': `Basic ${clientHash}`,
+    //         'Content-Type': `application/x-www-form-urlencoded`,
+            
+    //     },
+    //     data: {
+    //         'grant_type': 'authorization_code', 
+    //         'redirect_uri': redirectUri, 
+    //         'code': accessCode
+    //     },
+    //     response_type: 'json'
+    // })
+    // .then( (response) => {
+    //     whatever = response;
+    //     console.log('success request to access token')
+    // })
+    // .catch( (error) => {
+    //     whatever = error;
+    //     console.log('unsuccess request to access token: ', error)
+    // })
+    
+    let xml = new XMLHttpRequest();
+    xml.open("POST", accessTokenURL,true);
+    xml.setRequestHeader('Authorization','Basic ' + clientHash);
+    xml.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+    
+    xml.onreadystatechange=function(){
+        if( xml.readyState == 4 && xml.status == 200) {
+            let json = JSON.parse(xml.responseText);
+            accessToken = json['access_token'];
+            let refreshToken = json['refresh_token'];
+            console.log(json);
+            var string = encodeURIComponent(accessToken);
+            whatever = json;
+        }
+        else {
+            console.log(xml.status);
+            console.log(xml.responseText);
+            console.log("Getting access token Unsucessful")
+            whatever = xml.responseText;
+        }
+    };
+    xml.send(qs.stringify(bodyParams)); 
+    //Development 'http://localhost:3000'
+    //Production 'https://nbatrader.michaeldomingo.dev'
+    res.redirect('https://nbatrader.michaeldomingo.dev');
+    // res.redirect('http://localhost:3000')
+    
+})
+
+
+// Returns the access token to client side
+router.get('/token', (req,res) => {
+    return res.json({'accessToken': accessToken})
+})
+
+router.get('/test', (req,res) => {
+    res.send('test success')
+})
+
+router.get('/redirect-local', (req,res) => {
+    res.redirect(`http://localhost:81/oauth/redirect/?code=${accessCode}`);
+
+    let whatever;
+    let accessCode = req.query.code;
+    let test = 'hello'
+    console.log('code is: ', accessCode);
     let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri1, 'code': accessCode};
     // axios({
     //     url: accessTokenURL,
@@ -86,23 +157,6 @@ router.get('/redirect', (req,res) => {
     //Production 'https://nbatrader.michaeldomingo.dev'
     // res.redirect('https://nbatrader.michaeldomingo.dev');
     res.redirect('http://localhost:3000')
-    
-})
-
-
-// Returns the access token to client side
-router.get('/token', (req,res) => {
-    return res.json({'accessToken': accessToken})
-})
-
-router.get('/test', (req,res) => {
-    res.send('test success')
-})
-
-router.get('/redirect-local', (req,res) => {
-    let accessCode = req.query.code;
-    console.log(accessCode);
-    res.redirect(`http://localhost:81/oauth/redirect/?code=${accessCode}`);
 })
 
 module.exports = router;
