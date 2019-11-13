@@ -100,8 +100,12 @@ router.get('/test', (req,res) => {
 })
 
 router.get('/redirect-local', (req,res) => {
-    
+    let accessCode = req.query.code;
+    console.log(accessCode);
+    res.redirect(`http://localhost:81/oauth/redirect2/?code=${accessCode}`);
+})
 
+router.get('/redirect2', (req,res) => {
     let whatever;
     let accessCode = req.query.code;
     let test = 'hello'
@@ -155,8 +159,8 @@ router.get('/redirect-local', (req,res) => {
     xml.send(qs.stringify(bodyParams)); 
     //Development 'http://localhost:3000'
     //Production 'https://nbatrader.michaeldomingo.dev'
-    res.redirect('https://nbatrader.michaeldomingo.dev');
-    // res.redirect('http://localhost:3000')
+    // res.redirect('https://nbatrader.michaeldomingo.dev');
+    res.redirect('http://localhost:3000')
 })
 
 module.exports = router;
