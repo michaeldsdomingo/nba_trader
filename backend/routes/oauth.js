@@ -74,7 +74,9 @@ router.get('/redirect', (req,res) => {
             var string = encodeURIComponent(accessToken);
             whatever = json;
 
-            axios.post('http://localhost:81/yahoo/accessToken',
+            //Development: http://localhost:81/yahoo/accessToken
+            //Production: 
+            axios.post('http://nbatrader.michaeldomingo.dev/yahoo/accessToken',
                 {
                     accessToken
                 }
