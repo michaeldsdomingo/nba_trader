@@ -196,8 +196,6 @@ class App extends Component {
     let cont = true;
     let data = [];
     
-    
-
     axios.post('/yahoo/players', 
       {
         accessToken: this.state.accessToken,
@@ -311,6 +309,14 @@ class App extends Component {
       })
   }
 
+  yahooTest = () => {
+    axios.get('/yahoo/test').then(res => {
+      console.log(res.data)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
   firebaseTest = () => {
     axios.get('/firebase/test')
       .then(res => {
@@ -345,7 +351,7 @@ class App extends Component {
 
           <Stats change={this.checkBox} stats={this.state.stats}/>
           <button onClick={this.getAllTakenPlayersStats}>Get Stats</button>
-          
+          <button onClick={this.yahooTest}></button>
 
           <div id='table'>
             <BootstrapTable  striped={true} bordered="true" hover="true" keyField='id' data={ this.state.products } columns={ this.state.columns }  />

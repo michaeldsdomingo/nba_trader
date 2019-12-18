@@ -67,6 +67,10 @@ router.post('/players', (req,res) => {
         })
 })
 
+router.get('/test', (req,res) => {
+    res.send("yahoo/test successful")
+})
+
 
 
 module.exports = router;
