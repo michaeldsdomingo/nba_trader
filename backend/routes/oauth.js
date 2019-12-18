@@ -73,6 +73,17 @@ router.get('/redirect', (req,res) => {
             console.log(json);
             var string = encodeURIComponent(accessToken);
             whatever = json;
+
+            axios.post('http://localhost:81/yahoo/accessToken',
+                {
+                    accessToken
+                }
+            ).then(respons => {
+                console.log("access token success")
+            }).catch(err => {
+                
+                console.log(err)
+            })
         }
         else {
             console.log(xml.status);
