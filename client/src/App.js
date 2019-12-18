@@ -2,14 +2,15 @@
 // Main front end react app
 
 import React, { Component } from "react";
-import '../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.css';
+import '../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
 import calcRankings from './functions';
 import Stats from './Components/Stats.js'
 import Navbar from './Components/Navbar.js';
 import Draft from './Components/Draft';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
-
+import Test from './images/Test.png';
+import How from './Components/How.js';
 
 const axios = require('axios');
 const proxyURL = 'https://cors-anywhere.herokuapp.com/';
@@ -19,18 +20,20 @@ class App extends Component {
     super(props);
     this.state = {
       accessToken: '',
-      stats: [true, true, true, true, true, true, true, true, true],
+      stats: [true, true, true, true, true, true, true, true, false],
       data: [],
       products: [{
-          id: '',
+          // id: '',
           name: "",
           price: ''
       }],
-      columns: [{
-        dataField: 'id',
-        text: 'ID',
+      columns: [
+      //   {
+      //   dataField: 'id',
+      //   text: 'ID',
         
-      }, {
+      // }, 
+      {
         dataField: 'name',
         text: 'Name',
         sort: true
@@ -45,16 +48,16 @@ class App extends Component {
     }
 
     
-    this.getToken = this.getToken.bind(this);
-    this.login = this.login.bind(this);
-    this.getTeamStats = this.getTeamStats.bind(this);
-    this.getAllTakenPlayersStats = this.getAllTakenPlayersStats.bind(this);
-    this.displayTakenStats = this.displayTakenStats.bind(this);
-    this.checkBoxTest = this.checkBoxTest.bind(this);
+    // this.getToken = this.getToken.bind(this);
+    // this.login = this.login.bind(this);
+    // this.getTeamStats = this.getTeamStats.bind(this);
+    // this.getAllTakenPlayersStats = this.getAllTakenPlayersStats.bind(this);
+    // this.displayTakenStats = this.displayTakenStats.bind(this);
+    // this.checkBoxTest = this.checkBoxTest.bind(this);
   }
 
   // Changes the checked or unchecked value of the checkbox
-  checkBoxTest(event) {
+  checkBox = (event) => {
     let arr = this.state.stats;
     if (arr[event.target.value] == true) {
       arr[event.target.value] = false
@@ -70,7 +73,7 @@ class App extends Component {
 
   
   // Get request to server's side /oauth/token to retrieve the accessToken
-  getToken() {
+  getToken = () => {
     axios({
       url: '/oauth/token',
       method: 'get',
@@ -87,7 +90,7 @@ class App extends Component {
   }
 
   // Creates a get request to client'sides /oauth/login to logiin to Yahoo
-  login() {
+  login = () => {
     axios({
       url: '/oauth/login',
       method: 'get',
@@ -100,7 +103,7 @@ class App extends Component {
   }
 
   // Makes a get request to retrieve player stats on one manager's team
-  getTeamStats() {
+  getTeamStats = () => {
     axios({
       //proxy url
       url: proxyURL + 'https://fantasysports.yahooapis.com/fantasy/v2/team/nba.l.187759.t.7/players/stats;type=lastweek?format=json',
@@ -108,7 +111,6 @@ class App extends Component {
       withCredentials: false,
       headers: {
         'Authorization': 'Bearer ' + this.state.accessToken,
-        
       },
       
     }).then(response => {
@@ -189,138 +191,94 @@ class App extends Component {
   }
 
   // Makes a get request to the Yahoo API to get all player's stats in the league
-  getAllTakenPlayersStats() {
+  getAllTakenPlayersStats = () => {
     var startNum = 1;
     let cont = true;
     let data = [];
     
-    let stateSetter = (info) => {
-      let arr = [];
-      info.forEach(function(entry) {
-        for(let i = 0; i < entry['count']; i++) {
-          arr.push(entry[i]);
-        }
-      })
-      console.log("array before calc rankings")
-      console.log(arr);
-      calcRankings(arr, this.state.stats);
-      // console.log("array after calculate rankings")
-      // console.log(arr);
-
-      let columns = [{
-        dataField: 'id',
-        text: 'ID',
-        sort: true
-      }, {
-        dataField: 'name',
-        text: 'Name', 
-        sort: true
-      }, {
-        dataField: 'points',
-        text: 'Points',
-        sort: true,
-        sortFunc: (a, b, order, dataField, rowA, rowB) => {
-          if (order === 'desc') {
-            return a - b;
-          }
-          return b - a; // desc
-        }
-      }, {
-        dataField: 'truePoints',
-        text: 'True Points',
-        sort: true,
-        sortFunc: (a, b, order, dataField, rowA, rowB) => {
-          if (order === 'desc') {
-            return a - b;
-          }
-          return b - a; // desc
-        }
-      }];
-
-      let products = [];
-
-      for(let i = 0; i < arr.length; i++) {
-        let obj = {
-          id: i,
-          name: arr[i]["player"][0][2]['name']['full'],
-          points: arr[i]['player'][1]['player_stats']['stats'][17]['stat']['value'].toFixed(2),
-          truePoints: arr[i]['player'][1]['player_stats']['stats'][18]['stat']['value'].toFixed(2)
-        }
-        products.push(obj);
-      }
-
-      this.setState({
-        data: arr,
-        columns,
-        products
-      })
-
-      
-
-    }
-
-    axios.post('/getPlayers', {
-      accessToken: this.state.accessToken
-    })
-    .then( (response) => {
-      console.log(response);
-    })
-    .catch( (error) => {
-      console.log(error)
-    })
-
-    // let funcAxios = (start) => {
-    //   return axios({
-    //     //proxy url
-    //     url: 'https://fantasysports.yahooapis.com/fantasy/v2/league/nba.l.187759/players;status=T;start=' + start + '/stats?format=json',
-    //     method: 'get',
-    //     withCredentials: false,
-    //     headers: {
-    //       'Authorization': 'Bearer ' + this.state.accessToken,
-          
-    //     }
-        
-    //   })
-    // }
-    // let funcThen = (val) => {
-      
-      
-    //   return function(response) {
-        
-        
-    //     if (response.data['fantasy_content']['league'][1]['players']['count'] != undefined) {
-                   
-    //       data = data.concat(response.data['fantasy_content']['league'][1]['players'])
-          
-
-          
-    //       funcAxios(val + 25).then(funcThen(val + 25));
-          
-    //     }
-    //     else {
-    //       stateSetter(data);
-          
-    //     }
-    //   }
-      
-    // };
-    // let funcError = (error) => {
-    //   console.log(error);
-    //   cont = false
-    // }
-
-    // // Chains get request to obtain all players
-    // funcAxios(1).then(funcThen(1)).catch( error => {
-    //   console.log(error);
-    // });
     
-    
+
+    axios.post('/yahoo/players', 
+      {
+        accessToken: this.state.accessToken,
+        stats: this.state.stats
+      })
+          .then(res => {
+            console.log(res.data)
+            this.stateSetter(res.data)
+          })
+          .catch(err => {
+            console.log(err)
+          })
 
   } 
-  
-  displayTakenStats() {
-    console.log(this.state.data[0][0]['player'][0][2]['name']['full']);
+
+  stateSetter = (info) => {
+    let arr = info;
+
+    let columns = [
+    //   {
+    //   dataField: 'id',
+    //   text: 'ID',
+    //   sort: true
+    // },
+    {
+      dataField: 'name',
+      text: 'Name', 
+      sort: false
+    }, {
+      dataField: 'points',
+      text: 'Points',
+      sort: true,
+      sortFunc: (a, b, order, dataField, rowA, rowB) => {
+        
+        if (order === 'desc') {
+          return a - b;
+        }
+        return b - a; // desc
+      }
+    }, {
+      dataField: 'truePoints',
+      text: 'True Points',
+      sort: true,
+      sortFunc: (a, b, order, dataField, rowA, rowB) => {
+        
+        if (order === 'desc') {
+          return a - b;
+        }
+        return b - a; // desc
+      }
+    }];
+
+    let products = [];
+
+    for(let i = 0; i < arr.length; i++) {
+      let obj = {
+        // id: i,
+        name:  
+          <div className="tableImgName">
+            {
+              arr[i]["0"].length == 17 ? 
+              <img src={arr[i]["0"][9].image_url}/> : 
+              <img src={arr[i]["0"][10].image_url}/>
+            }
+              
+            <span className="tableName">{arr[i][0][2]['name']['full']}</span>
+          </div>,
+        points: arr[i][1]['player_stats']['stats'][17]['stat']['value'].toFixed(2),
+        truePoints: arr[i][1]['player_stats']['stats'][18]['stat']['value'].toFixed(2)
+      }
+      products.push(obj);
+    }
+
+    this.setState({
+      data: arr,
+      columns,
+      products
+    })
   }
+  
+  
 
   test = () => {
     axios.get('/oauth/test')
@@ -336,6 +294,7 @@ class App extends Component {
     axios.get('/oauth/redirect')
       .then( res => {
         console.log('success', res.data)
+        
       })
       .catch(err => {
         console.log(err);
@@ -355,48 +314,43 @@ class App extends Component {
   firebaseTest = () => {
     axios.get('/firebase/test')
       .then(res => {
-        console.log(' firebase successful')
+        console.log('firebase successful')
       })
-      .catch(res => {
+      .catch(err => {
         console.log('firebase unsuccessful')
       })
   }
 
-  render() {
-    var products = [
-      {
-        id: 1,
-        name: "Product1",
-        price: 120
-      }, 
-      {
-        id: 2,
-        name: "Product2",
-        price: 80
-      }
-    ];
+  componentDidMount() {
+    axios.get('/firebase/players/default')
+      .then( res => {
+        console.log('firebase default success')
+        console.log(res.data)
+        this.stateSetter(res.data)
+      })
+      .catch( err => {
+        console.log('firebase default not success')
+      })
+  }
 
-    
+  render() {
     return (
       <div>
         <Router>
           <Navbar />
-          <br/>
-          <button onClick={this.firebaseTest}>Firebase</button>
-          <button onClick={this.handlePlayer}>Player1</button>
-          <button onClick={this.handleRedirect}>Redirect4</button>
-          <button onClick={this.getToken}>Access Token</button>
-          <p >{this.state.accessToken}</p>
+
+          <How />
+          
+          
+
+          <Stats change={this.checkBox} stats={this.state.stats}/>
           <button onClick={this.getAllTakenPlayersStats}>Get Stats</button>
-          <br></br>
-          <br></br>
-          <a href="http://localhost:81/oauth/redirect-local/?code=test123">local</a>
-          <Stats change={this.checkBoxTest} stats={this.state.stats}/>
+          
 
           <div id='table'>
-            <BootstrapTable  striped keyField='id' data={ this.state.products } columns={ this.state.columns }  />
+            <BootstrapTable  striped={true} bordered="true" hover="true" keyField='id' data={ this.state.products } columns={ this.state.columns }  />
           </div>
-          <button onClick={this.test}>Test</button>
+
 
           <Route path='/draft' component={Draft} />
         </Router>

@@ -1,47 +1,138 @@
 import React, { Component } from 'react';
 // import '../App.js/index.js';
 import '../Style/style.css';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 class Stats extends Component {
+    constructor(props) {
+        super(props);
+        // 3PM, PTS, REB, AST, ST, BLK, TO, FG, FT
+        this.state = {
+            punt: "FT"
+        }
+    }
+
+    puntString = () => {
+        let statsNames = ["3PM ", "PTS ", "REB ", "AST ", "ST ", "BLK ", "TO ", "FG ", "FT "]
+        let puntName = "";
+        this.props.stats.forEach( (element, index) => {
+            if (element == false) {
+                puntName += statsNames[index]
+            }
+        });
+        return puntName;
+    }
+
+
     render() {
         return (
             <div id='stats'>
-                <label for="fg">
-                    <input id="fg" type="checkbox" name="stats" value='7' onChange={this.props.change} checked={this.props.stats[7]}></input>
-                    FG
-                </label>
-                <label for="ft">
-                    <input id="ft" type="checkbox" name="stats" value='8' onChange={this.props.change} checked={this.props.stats[8]}></input>
-                    FT
-                </label>
-                <label for="3pm">
-                    <input id="3pm" type="checkbox" name="stats" value='0' onChange={this.props.change} checked={this.props.stats[0]}></input>
-                    3PM
-                </label>
-                <label for="pts">
-                    <input id="pts" type="checkbox" name="stats" value='1' onChange={this.props.change} checked={this.props.stats[1]}></input>
-                    PTS
-                </label>
-                <label for="reb">
-                    <input id="reb" type="checkbox" name="stats" value='2' onChange={this.props.change} checked={this.props.stats[2]}></input>
-                    REB
-                </label>
-                <label for="ast">
-                    <input id="ast" type="checkbox" name="stats" value='3' onChange={this.props.change} checked={this.props.stats[3]}></input>
-                    AST
-                </label>
-                <label for="st">
-                    <input id="st" type="checkbox" name="stats" value='4' onChange={this.props.change} checked={this.props.stats[4]}></input>
-                    ST
-                </label>
-                <label for="blk">
-                    <input id="blk" type="checkbox" name="stats" value='5' onChange={this.props.change} checked={this.props.stats[5]}></input>
-                    BLK
-                </label>
-                <label for="to">
-                    <input id="to" type="checkbox" name="stats" value='6' onChange={this.props.change} checked={this.props.stats[6]}></input>
-                    TO
-                </label>
+                <h1>Punting: {this.puntString()}</h1>
+                <FormGroup row>
+                    <FormControlLabel
+                        control={
+                            <Checkbox 
+                                checked={this.props.stats[7]}
+                                onChange={this.props.change}
+                                value="7"
+                                color="primary"
+                            />
+                        }
+                        label="FG"
+                    />
+                    
+                    <FormControlLabel
+                        control={
+                            <Checkbox 
+                                checked={this.props.stats[8]}
+                                onChange={this.props.change}
+                                value="8"
+                                color="primary"
+                            />
+                        }
+                        label="FT"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox 
+                                checked={this.props.stats[0]}
+                                onChange={this.props.change}
+                                value="0"
+                                color="primary"
+                            />
+                        }
+                        label="3PM"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox 
+                                checked={this.props.stats[1]}
+                                onChange={this.props.change}
+                                value="1"
+                                color="primary"
+                            />
+                        }
+                        label="PTS"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox 
+                                checked={this.props.stats[2]}
+                                onChange={this.props.change}
+                                value="2"
+                                color="primary"
+                            />
+                        }
+                        label="REB"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox 
+                                checked={this.props.stats[3]}
+                                onChange={this.props.change}
+                                value="3"
+                                color="primary"
+                            />
+                        }
+                        label="AST"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox 
+                                checked={this.props.stats[4]}
+                                onChange={this.props.change}
+                                value="4"
+                                color="primary"
+                            />
+                        }
+                        label="STL"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox 
+                                checked={this.props.stats[5]}
+                                onChange={this.props.change}
+                                value="5"
+                                color="primary"
+                            />
+                        }
+                        label="BLK"
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox 
+                                checked={this.props.stats[6]}
+                                onChange={this.props.change}
+                                value="6"
+                                color="primary"
+                            />
+                        }
+                        label="TO"
+                    />
+                </FormGroup>
+                
             </div>
         )
     }

@@ -22,7 +22,7 @@ router.get('/login', (req,res) => {
     
     var queryParams = qs.stringify({
         client_id: clientID,
-        redirect_uri: redirectUri1,
+        redirect_uri: redirectUri,
         response_type: 'code'
     })
     res.redirect(authURL + '?' + queryParams);
@@ -82,10 +82,9 @@ router.get('/redirect', (req,res) => {
         }
     };
     xml.send(qs.stringify(bodyParams)); 
-    //Development 'http://localhost:3000'
-    //Production 'https://nbatrader.michaeldomingo.dev'
+    
     res.redirect('https://nbatrader.michaeldomingo.dev');
-    // res.redirect('http://localhost:3000')
+ 
     
 })
 
@@ -110,6 +109,7 @@ router.get('/redirect2', (req,res) => {
     let accessCode = req.query.code;
     let test = 'hello'
     console.log('code is: ', accessCode);
+    console.log("after")
     let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri1, 'code': accessCode};
     // axios({
     //     url: accessTokenURL,
@@ -148,6 +148,17 @@ router.get('/redirect2', (req,res) => {
             console.log(json);
             var string = encodeURIComponent(accessToken);
             whatever = json;
+            
+            axios.post('http://localhost:81/yahoo/accessToken',
+                {
+                    accessToken
+                }
+            ).then(respons => {
+                console.log("access token success")
+            }).catch(err => {
+                
+                console.log(err)
+            })
         }
         else {
             console.log(xml.status);
@@ -157,9 +168,11 @@ router.get('/redirect2', (req,res) => {
         }
     };
     xml.send(qs.stringify(bodyParams)); 
-    //Development 'http://localhost:3000'
-    //Production 'https://nbatrader.michaeldomingo.dev'
-    // res.redirect('https://nbatrader.michaeldomingo.dev');
+    
+    
+
+    
+    
     res.redirect('http://localhost:3000')
 })
 
