@@ -12,8 +12,10 @@ const draft = require('./routes/draft');
 const firebase = require('./routes/firebase');
 const yahoo = require('./routes/yahoo');
 const app = express();
-
+console.log("mode is")
+console.log(process.env.NODE_ENV)
 if(process.env.NODE_ENV == "development") {
+    
     require('dotenv').config();
 }
 
