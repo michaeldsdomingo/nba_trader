@@ -19,7 +19,7 @@ var accessToken = '';
 
 // When the user clicks on login, it will redirect to yahoo's login plus parameters
 router.get('/login', (req,res) => {
-    
+    console.log(process.env.REDIRECT_URI);
     var queryParams = qs.stringify({
         client_id: clientID,
         //Development: redirect_uri: redirectUri1
