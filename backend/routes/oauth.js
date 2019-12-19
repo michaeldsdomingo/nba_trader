@@ -36,7 +36,7 @@ router.get('/login', (req,res) => {
 router.get('/redirect', (req,res) => {
     let accessCode = req.query.code;
     console.log('code is: ', accessCode);
-    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
+    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': process.env.REDIRECT_URI, 'code': accessCode};
     
     
     let xml = new XMLHttpRequest();
