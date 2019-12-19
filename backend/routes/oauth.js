@@ -36,6 +36,8 @@ router.get('/login', (req,res) => {
 router.get('/redirect', (req,res) => {
     let accessCode = req.query.code;
     console.log('code is: ', accessCode);
+
+    
     let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': process.env.REDIRECT_URI, 'code': accessCode};
     
     
@@ -55,6 +57,8 @@ router.get('/redirect', (req,res) => {
 
             //Development: http://localhost:81/yahoo/accessToken
             //Production: http://nbatrader.michaeldomingo.dev/yahoo/accessToken
+            console.log(new Date().toLocaleString('en-US'))
+            console.log(process.env.HOME_URL_ACCESS_TOKEN);
             axios.post(process.env.HOME_URL_ACCESS_TOKEN,
                 {
                     accessToken
@@ -75,6 +79,8 @@ router.get('/redirect', (req,res) => {
     };
     xml.send(qs.stringify(bodyParams)); 
     
+    console.log(new Date().toLocaleString('en-US'))
+    console.log(process.env.HOME_URL);
     res.redirect(process.env.HOME_URL);
  
     
