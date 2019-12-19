@@ -13,6 +13,8 @@ const firebase = require('./routes/firebase');
 const yahoo = require('./routes/yahoo');
 const app = express();
 
+require('dotenv').config();
+
 
 // Allows data to be available in the req.body in json
 app.use(bodyParser.json({ limit: "50mb"}));

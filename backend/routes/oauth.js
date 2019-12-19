@@ -24,7 +24,7 @@ router.get('/login', (req,res) => {
         client_id: clientID,
         //Development: redirect_uri: redirectUri1
         //Production: redirect_uri: redirectUri
-        redirect_uri: redirectUri,
+        redirect_uri: process.env.REDIRECT_URI,
         response_type: 'code'
     })
     res.redirect(authURL + '?' + queryParams);
