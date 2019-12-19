@@ -34,34 +34,10 @@ router.get('/login', (req,res) => {
 // After the user authenticates, he will be redirected to this route
 // which will send a post request to yahoo and retrieve the access and refresh token
 router.get('/redirect', (req,res) => {
-    let whatever;
     let accessCode = req.query.code;
-    let test = 'hello'
     console.log('code is: ', accessCode);
     let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri, 'code': accessCode};
-    // axios({
-    //     url: accessTokenURL,
-    //     method: 'post',
-    //     headers: {
-    //         'Authorization': `Basic ${clientHash}`,
-    //         'Content-Type': `application/x-www-form-urlencoded`,
-            
-    //     },
-    //     data: {
-    //         'grant_type': 'authorization_code', 
-    //         'redirect_uri': redirectUri, 
-    //         'code': accessCode
-    //     },
-    //     response_type: 'json'
-    // })
-    // .then( (response) => {
-    //     whatever = response;
-    //     console.log('success request to access token')
-    // })
-    // .catch( (error) => {
-    //     whatever = error;
-    //     console.log('unsuccess request to access token: ', error)
-    // })
+    
     
     let xml = new XMLHttpRequest();
     xml.open("POST", accessTokenURL,true);
@@ -79,7 +55,7 @@ router.get('/redirect', (req,res) => {
 
             //Development: http://localhost:81/yahoo/accessToken
             //Production: http://nbatrader.michaeldomingo.dev/yahoo/accessToken
-            axios.post('http://nbatrader.michaeldomingo.dev/yahoo/accessToken',
+            axios.post(process.env.HOME_URL_ACCESS_TOKEN,
                 {
                     accessToken
                 }
@@ -94,12 +70,12 @@ router.get('/redirect', (req,res) => {
             console.log(xml.status);
             console.log(xml.responseText);
             console.log("Getting access token Unsucessful")
-            whatever = xml.responseText;
+            
         }
     };
     xml.send(qs.stringify(bodyParams)); 
     
-    res.redirect('https://nbatrader.michaeldomingo.dev');
+    res.redirect(process.env.HOME_URL);
  
     
 })
@@ -117,79 +93,79 @@ router.get('/test', (req,res) => {
 router.get('/redirect-local', (req,res) => {
     let accessCode = req.query.code;
     console.log(accessCode);
-    res.redirect(`http://localhost:81/oauth/redirect2/?code=${accessCode}`);
+    res.redirect(`http://localhost:81/oauth/redirect/?code=${accessCode}`);
 })
 
-router.get('/redirect2', (req,res) => {
-    let whatever;
-    let accessCode = req.query.code;
-    let test = 'hello'
-    console.log('code is: ', accessCode);
-    console.log("after")
-    let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri1, 'code': accessCode};
-    // axios({
-    //     url: accessTokenURL,
-    //     method: 'post',
-    //     headers: {
-    //         'Authorization': `Basic ${clientHash}`,
-    //         'Content-Type': `application/x-www-form-urlencoded`,
+// router.get('/redirect2', (req,res) => {
+//     let whatever;
+//     let accessCode = req.query.code;
+//     let test = 'hello'
+//     console.log('code is: ', accessCode);
+//     console.log("after")
+//     let bodyParams = {'grant_type': 'authorization_code', 'redirect_uri': redirectUri1, 'code': accessCode};
+//     // axios({
+//     //     url: accessTokenURL,
+//     //     method: 'post',
+//     //     headers: {
+//     //         'Authorization': `Basic ${clientHash}`,
+//     //         'Content-Type': `application/x-www-form-urlencoded`,
             
-    //     },
-    //     data: {
-    //         'grant_type': 'authorization_code', 
-    //         'redirect_uri': redirectUri, 
-    //         'code': accessCode
-    //     },
-    //     response_type: 'json'
-    // })
-    // .then( (response) => {
-    //     whatever = response;
-    //     console.log('success request to access token')
-    // })
-    // .catch( (error) => {
-    //     whatever = error;
-    //     console.log('unsuccess request to access token: ', error)
-    // })
+//     //     },
+//     //     data: {
+//     //         'grant_type': 'authorization_code', 
+//     //         'redirect_uri': redirectUri, 
+//     //         'code': accessCode
+//     //     },
+//     //     response_type: 'json'
+//     // })
+//     // .then( (response) => {
+//     //     whatever = response;
+//     //     console.log('success request to access token')
+//     // })
+//     // .catch( (error) => {
+//     //     whatever = error;
+//     //     console.log('unsuccess request to access token: ', error)
+//     // })
     
-    let xml = new XMLHttpRequest();
-    xml.open("POST", accessTokenURL,true);
-    xml.setRequestHeader('Authorization','Basic ' + clientHash);
-    xml.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+//     let xml = new XMLHttpRequest();
+//     xml.open("POST", accessTokenURL,true);
+//     xml.setRequestHeader('Authorization','Basic ' + clientHash);
+//     xml.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
     
-    xml.onreadystatechange=function(){
-        if( xml.readyState == 4 && xml.status == 200) {
-            let json = JSON.parse(xml.responseText);
-            accessToken = json['access_token'];
-            let refreshToken = json['refresh_token'];
-            console.log(json);
-            var string = encodeURIComponent(accessToken);
-            whatever = json;
+//     xml.onreadystatechange=function(){
+//         if( xml.readyState == 4 && xml.status == 200) {
+//             let json = JSON.parse(xml.responseText);
+//             accessToken = json['access_token'];
+//             let refreshToken = json['refresh_token'];
+//             console.log(json);
+//             var string = encodeURIComponent(accessToken);
+//             whatever = json;
             
-            axios.post('http://localhost:81/yahoo/accessToken',
-                {
-                    accessToken
-                }
-            ).then(respons => {
-                console.log("access token success")
-            }).catch(err => {
+//             axios.post('http://localhost:81/yahoo/accessToken',
+//                 {
+//                     accessToken
+//                 }
+//             ).then(respons => {
+//                 console.log("access token success")
+//             }).catch(err => {
                 
-                console.log(err)
-            })
-        }
-        else {
-            console.log(xml.status);
-            console.log(xml.responseText);
-            console.log("Getting access token Unsucessful")
-            whatever = xml.responseText;
-        }
-    };
-    xml.send(qs.stringify(bodyParams)); 
+//                 console.log(err)
+//             })
+//         }
+//         else {
+//             console.log(xml.status);
+//             console.log(xml.responseText);
+//             console.log("Getting access token Unsucessful")
+//             whatever = xml.responseText;
+//         }
+//     };
+//     xml.send(qs.stringify(bodyParams)); 
     
     
 
     
     
-    res.redirect('http://localhost:3000')
-})
+//     res.redirect('http://localhost:3000')
+// })
 
 module.exports = router;
