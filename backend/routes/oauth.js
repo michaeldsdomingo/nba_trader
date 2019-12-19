@@ -22,6 +22,8 @@ router.get('/login', (req,res) => {
     
     var queryParams = qs.stringify({
         client_id: clientID,
+        //Development: redirect_uri: redirectUri1
+        //Production: redirect_uri: redirectUri
         redirect_uri: redirectUri,
         response_type: 'code'
     })
@@ -75,7 +77,7 @@ router.get('/redirect', (req,res) => {
             whatever = json;
 
             //Development: http://localhost:81/yahoo/accessToken
-            //Production: 
+            //Production: http://nbatrader.michaeldomingo.dev/yahoo/accessToken
             axios.post('http://nbatrader.michaeldomingo.dev/yahoo/accessToken',
                 {
                     accessToken

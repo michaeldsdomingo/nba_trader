@@ -12,6 +12,8 @@ import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import Test from './images/Test.png';
 import How from './Components/How.js';
 
+require('dotenv').config();
+
 const axios = require('axios');
 const proxyURL = 'https://cors-anywhere.herokuapp.com/';
 
@@ -310,6 +312,7 @@ class App extends Component {
   }
 
   yahooTest = () => {
+    console.log(process.env.REACT_APP_LOGIN_URL)
     axios.get('/yahoo/test').then(res => {
       console.log(res.data)
     }).catch(err => {
@@ -351,7 +354,7 @@ class App extends Component {
 
           <Stats change={this.checkBox} stats={this.state.stats}/>
           <button onClick={this.getAllTakenPlayersStats}>Get Stats</button>
-          <button onClick={this.yahooTest}></button>
+          <button onClick={this.yahooTest}>test</button>
 
           <div id='table'>
             <BootstrapTable  striped={true} bordered="true" hover="true" keyField='id' data={ this.state.products } columns={ this.state.columns }  />
