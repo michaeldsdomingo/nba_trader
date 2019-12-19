@@ -13,7 +13,10 @@ const firebase = require('./routes/firebase');
 const yahoo = require('./routes/yahoo');
 const app = express();
 
-require('dotenv').config();
+if(process.env.NODE_ENV == "development") {
+    require('dotenv').config();
+}
+
 
 
 // Allows data to be available in the req.body in json
