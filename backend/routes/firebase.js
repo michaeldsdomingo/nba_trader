@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const axios = require('axios');
-const firebase = require('../db').firebase;
+const db = require('../db').db;
 
-var db = firebase.firestore();
+
+// var db = firebase.firestore();
 
 router.get('/test', (req,res) => {
-    db.collection('players').add({
-        foo: 'bar',
+    db.collection('test').add({
+        foo: 'bar123',
     })
     .then(ref => {
         console.log("Added document with ID: ", ref.id)
