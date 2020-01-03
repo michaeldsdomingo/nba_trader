@@ -30,11 +30,6 @@ class App extends Component {
           price: ''
       }],
       columns: [
-      //   {
-      //   dataField: 'id',
-      //   text: 'ID',
-        
-      // }, 
       {
         dataField: 'name',
         text: 'Name',
@@ -45,17 +40,12 @@ class App extends Component {
       }, {
         dataField: 'true-points',
         text: 'True Points'
-      }]
+      }],
+      test: '',
+      session: '',
+
 
     }
-
-    
-    // this.getToken = this.getToken.bind(this);
-    // this.login = this.login.bind(this);
-    // this.getTeamStats = this.getTeamStats.bind(this);
-    // this.getAllTakenPlayersStats = this.getAllTakenPlayersStats.bind(this);
-    // this.displayTakenStats = this.displayTakenStats.bind(this);
-    // this.checkBoxTest = this.checkBoxTest.bind(this);
   }
 
   // Changes the checked or unchecked value of the checkbox
@@ -71,125 +61,6 @@ class App extends Component {
       stats: arr
     })
     
-  }
-
-  
-  // Get request to server's side /oauth/token to retrieve the accessToken
-  getToken = () => {
-    axios({
-      url: '/oauth/token',
-      method: 'get',
-    })
-    .then(response => {
-      this.setState({
-        accessToken: response.data.accessToken
-      })
-      
-    })
-    .catch(error => {
-      console.log(error);
-    })
-  }
-
-  // Creates a get request to client'sides /oauth/login to logiin to Yahoo
-  login = () => {
-    axios({
-      url: '/oauth/login',
-      method: 'get',
-    }).then(response => {
-      console.log('success');
-      
-    }).catch(error => {
-      console.log('unsuccess');
-    })
-  }
-
-  // Makes a get request to retrieve player stats on one manager's team
-  getTeamStats = () => {
-    axios({
-      //proxy url
-      url: proxyURL + 'https://fantasysports.yahooapis.com/fantasy/v2/team/nba.l.187759.t.7/players/stats;type=lastweek?format=json',
-      method: 'get',
-      withCredentials: false,
-      headers: {
-        'Authorization': 'Bearer ' + this.state.accessToken,
-      },
-      
-    }).then(response => {
-      //response.data['fantasy_content']['team'][1]['players']['4']['player'][0][2]['name']['full']
-      
-      let columns = [{
-        dataField: 'id',
-        text: 'ID'
-      }, {
-        dataField: 'name',
-        text: 'Name'
-      }, {
-        dataField: 'fgm/fga',
-        text: 'FGM/FGA'
-      }, {
-        dataField: 'fg%',
-        text: 'FG%'
-      }, {
-        dataField: 'ftm/fta',
-        text: 'FTM/FTA'
-      }, {
-        dataField: 'ft%',
-        text: 'FT%'
-      }, {
-        dataField: '3pm',
-        text: '3PM'
-      }, {
-        dataField: 'pts',
-        text: 'PTS'
-      }, {
-        dataField: 'reb',
-        text: 'REB'
-      }, {
-        dataField: 'ast',
-        text: 'AST'
-      }, {
-        dataField: 'st',
-        text: 'ST'
-      }, {
-        dataField: 'blk',
-        text: 'BLK'
-      }, {
-        dataField: 'to',
-        text: 'TO'
-      }]
-      
-
-      let products = [];
-      for(let i=0; i < 11; i++) {
-        let obj = {
-          id: i,
-          name: response.data['fantasy_content']['team'][1]['players'][i]['player'][0][2]['name']['full'],
-          'fgm/fga': response.data['fantasy_content']['team'][1]['players'][i]['player'][1]['player_stats']['stats'][0]['stat']['value'],
-          'fg%': response.data['fantasy_content']['team'][1]['players'][i]['player'][1]['player_stats']['stats'][1]['stat']['value'],
-          'ftm/fta': response.data['fantasy_content']['team'][1]['players'][i]['player'][1]['player_stats']['stats'][2]['stat']['value'],
-          'ft%': response.data['fantasy_content']['team'][1]['players'][i]['player'][1]['player_stats']['stats'][3]['stat']['value'],
-          '3pm': response.data['fantasy_content']['team'][1]['players'][i]['player'][1]['player_stats']['stats'][4]['stat']['value'],
-          pts: response.data['fantasy_content']['team'][1]['players'][i]['player'][1]['player_stats']['stats'][5]['stat']['value'],
-          reb: response.data['fantasy_content']['team'][1]['players'][i]['player'][1]['player_stats']['stats'][6]['stat']['value'],
-          ast: response.data['fantasy_content']['team'][1]['players'][i]['player'][1]['player_stats']['stats'][7]['stat']['value'],
-          st: response.data['fantasy_content']['team'][1]['players'][i]['player'][1]['player_stats']['stats'][8]['stat']['value'],
-          blk: response.data['fantasy_content']['team'][1]['players'][i]['player'][1]['player_stats']['stats'][9]['stat']['value'],
-          to: response.data['fantasy_content']['team'][1]['players'][i]['player'][1]['player_stats']['stats'][10]['stat']['value']
-        };
-
-        products.push(obj);
-      }
-      
-      this.setState({
-        data: (response.data['fantasy_content']['team']),
-        products,
-        columns
-      })
-
-    }).catch(error => {
-      console.log(error)
-    })
   }
 
   // Makes a get request to the Yahoo API to get all player's stats in the league
@@ -278,39 +149,6 @@ class App extends Component {
     })
   }
   
-  
-
-  test = () => {
-    axios.get('/oauth/test')
-    .then( res => {
-      console.log(res.data)
-    })
-    .catch(err => {
-      console.log(err)
-    })
-  }
-
-  handleRedirect = () => {
-    axios.get('/oauth/redirect')
-      .then( res => {
-        console.log('success', res.data)
-        
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
-
-  handlePlayer = () => {
-    axios.post('/player', {accessToken: this.state.accessToken})
-      .then(res => {
-        console.log(res.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
-  }
-
   yahooTest = () => {
     console.log(process.env.REACT_APP_LOGIN_URL)
     axios.get('/yahoo/test').then(res => {
@@ -320,17 +158,47 @@ class App extends Component {
     })
   }
 
-  firebaseTest = () => {
-    axios.get('/firebase/test')
-      .then(res => {
-        console.log('firebase successful')
-      })
-      .catch(err => {
-        console.log('firebase unsuccessful')
-      })
+  newfirebase = () => {
+    axios.get('/firebase/test').then(res => {
+      console.log('new fb success')
+    }).catch(err => {
+      console.log(err)
+    })
   }
 
-  componentDidMount() {
+  session1 = () => {
+    axios.get('/oauth/session1').then(res => {
+      console.log('session succ')
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
+  session2 = () => {
+    axios.get('/session2').then(res => {
+      console.log('session succ')
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
+  checkSession = () => {
+    axios.get('/checkSession').then(res => {
+      console.log(res.data)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
+  checkSessionOauth = () => {
+    axios.get('oauth/checkSession').then(res => {
+      console.log(res.data)
+    }).catch(err => {
+      console.log(err)
+    })
+  }
+
+  getDefaultPlayers = () => {
     axios.get('/firebase/players/default')
       .then( res => {
         console.log('firebase default success')
@@ -342,19 +210,60 @@ class App extends Component {
       })
   }
 
+  checkLoggedInStatus = () => {
+    axios.get('/oauth/checkLoggedInStatus').then(response => {
+      let { user } = response.data;
+      if (user) {
+        this.setState({
+          session: user
+        })
+      }
+    }).catch(error => {
+      console.log(error)
+    })
+  }
+
+  changeTest = () => {
+    if (this.state.test) {
+      console.log(this.state.test)
+    }
+    else console.log('false')
+  }
+
+  logout = () => {
+    console.log('attempt to logout')
+    axios.get('/oauth/logout').then(response => {
+        console.log(response)
+        this.setState({
+          session: response.data.session
+        })
+    }).catch(error => {
+
+    })
+}
+
+  componentDidMount() {
+    this.getDefaultPlayers();
+    this.checkLoggedInStatus();
+  }
+
   render() {
     return (
       <div>
         <Router>
-          <Navbar />
+          <Navbar session={this.state.session} logout={this.logout}/>
 
           <How />
-          
-          
-
+          <p>{this.state.test}</p>
+          <button onClick={this.changeTest}>change test</button>
           <Stats change={this.checkBox} stats={this.state.stats}/>
           <button onClick={this.getAllTakenPlayersStats}>Get Stats</button>
           <button onClick={this.yahooTest}>test</button>
+          <button onClick={this.newfirebase}>new firebase</button>
+          <button onClick={this.session1}>session 1</button>
+          <button onClick={this.session2}>session 2</button>
+          <button onClick={this.checkSession}>check session</button>
+          <button onClick={this.checkSessionOauth}>check session in Oauth</button>
 
           <div id='table'>
             <BootstrapTable  striped={true} bordered="true" hover="true" keyField='id' data={ this.state.products } columns={ this.state.columns }  />
