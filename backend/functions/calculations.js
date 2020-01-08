@@ -42,6 +42,7 @@ const FGA = 14
 const FTM = 15
 const FTA = 16
 const TOTALPOINTS = 17
+const TRUEPOINTS = 18
 
 const math = require('mathjs')
 

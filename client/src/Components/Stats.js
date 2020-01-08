@@ -132,7 +132,10 @@ class Stats extends Component {
                         label="TO"
                     />
                 </FormGroup>
-                
+                {this.props.session ? 
+                    <button onClick={this.props.getStats}>Get Stats</button> :
+                    <button onClick={this.props.editTable}>Edit Stats</button>
+                }
             </div>
         )
     }

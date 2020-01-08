@@ -4,18 +4,15 @@
 import React, { Component } from "react";
 import '../node_modules/react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 import BootstrapTable from 'react-bootstrap-table-next';
-import calcRankings from './functions';
 import Stats from './Components/Stats.js'
 import Navbar from './Components/Navbar.js';
 import Draft from './Components/Draft';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
-import Test from './images/Test.png';
 import How from './Components/How.js';
 
 require('dotenv').config();
 
 const axios = require('axios');
-const proxyURL = 'https://cors-anywhere.herokuapp.com/';
 
 class App extends Component {
   constructor(props) {
@@ -65,17 +62,12 @@ class App extends Component {
 
   // Makes a get request to the Yahoo API to get all player's stats in the league
   getAllTakenPlayersStats = () => {
-    var startNum = 1;
-    let cont = true;
-    let data = [];
-    
     axios.post('/yahoo/players', 
       {
         accessToken: this.state.accessToken,
         stats: this.state.stats
       })
           .then(res => {
-            console.log(res.data)
             this.stateSetter(res.data)
           })
           .catch(err => {
@@ -149,55 +141,6 @@ class App extends Component {
     })
   }
   
-  yahooTest = () => {
-    console.log(process.env.REACT_APP_LOGIN_URL)
-    axios.get('/yahoo/test').then(res => {
-      console.log(res.data)
-    }).catch(err => {
-      console.log(err)
-    })
-  }
-
-  newfirebase = () => {
-    axios.get('/firebase/test').then(res => {
-      console.log('new fb success')
-    }).catch(err => {
-      console.log(err)
-    })
-  }
-
-  session1 = () => {
-    axios.get('/oauth/session1').then(res => {
-      console.log('session succ')
-    }).catch(err => {
-      console.log(err)
-    })
-  }
-
-  session2 = () => {
-    axios.get('/session2').then(res => {
-      console.log('session succ')
-    }).catch(err => {
-      console.log(err)
-    })
-  }
-
-  checkSession = () => {
-    axios.get('/checkSession').then(res => {
-      console.log(res.data)
-    }).catch(err => {
-      console.log(err)
-    })
-  }
-
-  checkSessionOauth = () => {
-    axios.get('oauth/checkSession').then(res => {
-      console.log(res.data)
-    }).catch(err => {
-      console.log(err)
-    })
-  }
-
   getDefaultPlayers = () => {
     axios.get('/firebase/players/default')
       .then( res => {
@@ -223,13 +166,6 @@ class App extends Component {
     })
   }
 
-  changeTest = () => {
-    if (this.state.test) {
-      console.log(this.state.test)
-    }
-    else console.log('false')
-  }
-
   logout = () => {
     console.log('attempt to logout')
     axios.get('/oauth/logout').then(response => {
@@ -240,7 +176,7 @@ class App extends Component {
     }).catch(error => {
 
     })
-}
+  }
 
   componentDidMount() {
     this.getDefaultPlayers();
@@ -254,17 +190,10 @@ class App extends Component {
           <Navbar session={this.state.session} logout={this.logout}/>
 
           <How />
-          <p>{this.state.test}</p>
-          <button onClick={this.changeTest}>change test</button>
-          <Stats change={this.checkBox} stats={this.state.stats}/>
-          <button onClick={this.getAllTakenPlayersStats}>Get Stats</button>
-          <button onClick={this.yahooTest}>test</button>
-          <button onClick={this.newfirebase}>new firebase</button>
-          <button onClick={this.session1}>session 1</button>
-          <button onClick={this.session2}>session 2</button>
-          <button onClick={this.checkSession}>check session</button>
-          <button onClick={this.checkSessionOauth}>check session in Oauth</button>
-
+  
+          <Stats change={this.checkBox} stats={this.state.stats} session={this.state.session} getStats={this.getAllTakenPlayersStats} editTable={this.editTable}/>
+          
+          
           <div id='table'>
             <BootstrapTable  striped={true} bordered="true" hover="true" keyField='id' data={ this.state.products } columns={ this.state.columns }  />
           </div>
@@ -272,9 +201,7 @@ class App extends Component {
 
           <Route path='/draft' component={Draft} />
         </Router>
-        
-        
-        
+      
       </div>
     )
   }
