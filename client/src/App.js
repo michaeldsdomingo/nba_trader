@@ -178,6 +178,18 @@ class App extends Component {
     })
   }
 
+  editTable = () => {
+    axios.post('/yahoo/editDefault', {
+      data: this.state.data,
+      stats: this.state.stats
+    }).then( response => {
+      console.log(response.data)
+      this.stateSetter(response.data)
+    }).catch( err => {
+
+    })
+  }
+
   componentDidMount() {
     this.getDefaultPlayers();
     this.checkLoggedInStatus();

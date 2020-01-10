@@ -50,7 +50,7 @@ router.post('/players', (req,res) => {
 
 
 
-            calcRankings(data, req.body.stats);
+            let dataUpdated = calcRankings(data, req.body.stats);
 
             // axios.post("http://localhost:81/firebase/players", 
             //     {
@@ -62,7 +62,7 @@ router.post('/players', (req,res) => {
             //     console.log('firebase error')
             // })
             
-            res.send(data)
+            res.send(dataUpdated);
 
         })
 })
@@ -70,6 +70,18 @@ router.post('/players', (req,res) => {
 router.get('/test', (req,res) => {
     res.send("yahoo/test successful")
 })
+
+router.post('/editDefault', (req,res) => {
+    let arr = req.body.data;
+    calcRankings(arr, req.body.stats);
+    // console.log(arr);
+    res.send(arr)
+})
+
+test = (arrPlayers, nothing) => {
+    return arrPlayers = [1,2,3];
+
+}
 
 
 

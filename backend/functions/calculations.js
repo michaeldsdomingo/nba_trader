@@ -47,7 +47,27 @@ const TRUEPOINTS = 18
 const math = require('mathjs')
 
 var calcRankings = (arrPlayers, stats ) => {
-    console.log(stats)
+    // console.log(stats)
+    // let arr = [{
+    //     0: 'test',
+    //     1: [0,1,2,3,4,5,6,7]
+    // }]
+
+    // let st = arr[0]['1'];
+    // console.log(st)
+    // arr[0]['1'] = '3'
+
+    //Reset
+    // arrPlayers[0][1].player_stats.stats = arrPlayers[0][1].player_stats.stats.slice(0,11)
+    // console.log(arrPlayers[0][1].player_stats.stats)
+    // console.log(arrPlayers[0][1].player_stats.stats.slice(0,11));
+    arrPlayers.forEach( entry => {
+        let playerStats = entry[1].player_stats.stats
+        entry[1].player_stats.stats = entry[1].player_stats.stats.slice(0, 11);
+    })
+    
+    
+    if(true){
     // Convert stats with a value of '-' to "0" and separates Made and Attempts string 
     arrPlayers.forEach( (entry) => {
         for (let i = 0; i < FGI; i++) {
@@ -204,6 +224,9 @@ var calcRankings = (arrPlayers, stats ) => {
             }
         })
     })
+    }
+
+    return arrPlayers;
 }
 
 //Calculate standard deviation of a given stat

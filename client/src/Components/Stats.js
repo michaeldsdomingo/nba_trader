@@ -4,6 +4,7 @@ import '../Style/style.css';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
 
 class Stats extends Component {
     constructor(props) {
@@ -30,7 +31,7 @@ class Stats extends Component {
         return (
             <div id='stats'>
                 <h1>Punting: {this.puntString()}</h1>
-                <FormGroup row>
+                <FormGroup row className="row">
                     <FormControlLabel
                         control={
                             <Checkbox 
@@ -133,8 +134,12 @@ class Stats extends Component {
                     />
                 </FormGroup>
                 {this.props.session ? 
-                    <button onClick={this.props.getStats}>Get Stats</button> :
-                    <button onClick={this.props.editTable}>Edit Stats</button>
+                    <Button variant="contained" color="primary" onClick={this.props.getStats}>
+                        Get Stats
+                    </Button> :
+                    <Button variant="contained" color="primary" onClick={this.props.editTable}>
+                        Modify
+                    </Button>
                 }
             </div>
         )

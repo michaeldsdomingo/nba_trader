@@ -103,3 +103,7 @@ label {
     width: 100%;
     z-index: 5;
 }
+
+.row {
+    margin-bottom: .5rem
+}
