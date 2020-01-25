@@ -15,9 +15,9 @@ const cors = require('cors')
 const app = express();
 console.log("mode is")
 console.log(process.env.NODE_ENV)
-// if(process.env.NODE_ENV == "development") {
-//     require('dotenv').config();
-// }
+if(process.env.NODE_ENV == "development") {
+    require('dotenv').config();
+}
 
 
 
