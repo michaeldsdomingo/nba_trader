@@ -107,3 +107,40 @@ label {
 .row {
     margin-bottom: .5rem
 }
+
+.bgRed {
+    background-color: red !important;
+}
+
+.bgGreen {
+    background-color: green !important;
+}
+
+.flex-table {
+    display: flex
+}
+
+.ml-1 {
+    margin-left: 20px;
+}
+
+.colorRed {
+    color: red
+}
+
+.colorGreen {
+    color: green
+}
+
+.unclickable {
+    pointer-events: none;
+}
+
+.selectedBorder {
+    border: 2px solid black;
+}
+
+.bold500 {
+    font-weight: 500
+}
+

@@ -9,6 +9,8 @@ import Navbar from './Components/Navbar.js';
 import Draft from './Components/Draft';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import How from './Components/How.js';
+import quickSort from './js/sort';
+import Test from './Components/Test.js'
 
 require('dotenv').config();
 
@@ -38,9 +40,9 @@ class App extends Component {
         dataField: 'true-points',
         text: 'True Points'
       }],
-      test: '',
       session: '',
-
+      neighbors: [],
+      netTruePointArray: [],
 
     }
   }
@@ -62,6 +64,8 @@ class App extends Component {
 
   // Makes a get request to the Yahoo API to get all player's stats in the league
   getAllTakenPlayersStats = () => {
+    let rows = document.getElementsByTagName('tr')
+    this.undoAnimation(rows)
     axios.post('/yahoo/players', 
       {
         accessToken: this.state.accessToken,
@@ -92,7 +96,7 @@ class App extends Component {
     }, {
       dataField: 'points',
       text: 'Points',
-      sort: true,
+      sort: false,
       sortFunc: (a, b, order, dataField, rowA, rowB) => {
         
         if (order === 'desc') {
@@ -103,7 +107,7 @@ class App extends Component {
     }, {
       dataField: 'truePoints',
       text: 'True Points',
-      sort: true,
+      sort: false,
       sortFunc: (a, b, order, dataField, rowA, rowB) => {
         
         if (order === 'desc') {
@@ -116,6 +120,8 @@ class App extends Component {
     let products = [];
 
     for(let i = 0; i < arr.length; i++) {
+
+      let playerStats = arr[i][1]['player_stats']['stats']
       let obj = {
         // id: i,
         name:  
@@ -125,11 +131,27 @@ class App extends Component {
               <img src={arr[i]["0"][9].image_url}/> : 
               <img src={arr[i]["0"][10].image_url}/>
             }
-              
+            
             <span className="tableName">{arr[i][0][2]['name']['full']}</span>
           </div>,
-        points: arr[i][1]['player_stats']['stats'][17]['stat']['value'].toFixed(2),
-        truePoints: arr[i][1]['player_stats']['stats'][18]['stat']['value'].toFixed(2)
+        points: playerStats[17]['stat']['value'].toFixed(2),
+        truePoints: 
+                    <div>
+                      {
+                        playerStats[19] ? 
+                        <div>
+                          <span>{playerStats[18]['stat']['value'].toFixed(2)} </span>
+                          <span>{playerStats[19]['stat']['value']} </span>
+                        </div>
+                        :
+                        <div className="flex-table">
+                          <span>{playerStats[18]['stat']['value'].toFixed(2)}</span>
+                        </div>
+                        
+                      }
+                      
+                    </div>
+                      
       }
       products.push(obj);
     }
@@ -142,11 +164,15 @@ class App extends Component {
   }
   
   getDefaultPlayers = () => {
+    let rows = document.getElementsByTagName('tr')
+    this.undoAnimation(rows)
     axios.get('/firebase/players/default')
       .then( res => {
         console.log('firebase default success')
-        console.log(res.data)
-        this.stateSetter(res.data)
+        
+        this.stateSetter(quickSort(res.data, 0, res.data.length - 1).reverse())
+        // this.stateSetter(res.data)
+        // console.log(res.data)
       })
       .catch( err => {
         console.log('firebase default not success')
@@ -179,6 +205,8 @@ class App extends Component {
   }
 
   editTable = () => {
+    let rows = document.getElementsByTagName('tr')
+    this.undoAnimation(rows)
     axios.post('/yahoo/editDefault', {
       data: this.state.data,
       stats: this.state.stats
@@ -190,10 +218,146 @@ class App extends Component {
     })
   }
 
+  rowClick = (e, row, rowIndex) => {
+    let rows = document.getElementsByTagName('tr')
+    let neighbors = []
+    let table = document.getElementById('table')
+    console.log(rowIndex)
+    table.classList.add('unclickable')
+    setTimeout( () => {
+      table.classList.remove('unclickable')
+    }, this.state.neighbors.length * 50 * 2)
+    this.undoAnimation(rows);
+
+    // this.state.neighbors.forEach( (x) => {
+    //   rows[x].classList.remove('bgRed')
+    //   rows[x].classList.remove('bgGreen')
+    // })
+    
+    for(let i = 0; i < rows.length; i++) {
+      if (i > rowIndex - 3 && i < rowIndex + 5) {
+        if (i != 0) {
+          neighbors.push(i)
+          // rows[i].classList.add('bgRed')
+        }
+        // if ( i == rowIndex ) {
+        //   rows[rowIndex + 1].classList.add('bgGreen')
+        // }
+      }
+      else {
+        // rows[i].classList.remove('bgRed')
+        // rows[i].classList.remove('bgGreen')
+      }
+
+      
+    }
+    this.setState({neighbors})
+    
+    // console.log(neighbors, this.state.neighbors, rowIndex)
+    this.animate(rowIndex, rows, neighbors)
+  }
+
+  animate = (rowIndex, rows, neighbors) => {
+    // console.log(this.state.neighbors, rowIndex)
+    //Use array by reference instead of state because state hasn't been updated.
+    
+    let data = [...this.state.data]
+    let selectedTruePoint = data[rowIndex][1].player_stats.stats[18].stat.value.toFixed(2)
+    let netTruePointArray = [];
+
+    neighbors.forEach( (i, index) => {
+
+        // console.log('animate', index, i)
+        let trueColumn = rows[i].children[2].children[0].children[0]
+        if (i != 0) {
+          
+          // rows[i].classList.add('bgRed')
+          netTruePointArray.push({
+            index: i,
+            net: (data[i - 1][1].player_stats.stats[18].stat.value.toFixed(2) - selectedTruePoint).toFixed(2),
+          })
+          data[i - 1][1].player_stats.stats.push({
+            stat: {
+              value: (data[i - 1][1].player_stats.stats[18].stat.value - selectedTruePoint).toFixed(2), 
+              stat_id: 28
+            }
+          })
+          
+        }
+        
+        setTimeout( () => {
+          // console.log(rows[i].children[2].children[0].children[0])
+          let netNode = document.createElement('div')
+          let netText = document.createTextNode(Math.abs(netTruePointArray[index].net))
+          let {net} = netTruePointArray[index]
+          netNode.setAttribute('class', 'ml-4 bold500')
+          let arrowNode = document.createElement('i')
+
+          if (Number(net) > 0) {
+            arrowNode.setAttribute('class', 'fas fa-angle-double-up colorGreen mr-2')
+            netNode.classList.add('colorGreen')
+          }
+          else if (Number(net) < 0) {
+            arrowNode.setAttribute('class', 'fas fa-angle-double-down colorRed mr-2')
+            netNode.classList.add('colorRed')
+          }
+          
+          if(Number(net) != 0) {
+            netNode.appendChild(arrowNode)
+            netNode.appendChild(netText)
+            trueColumn.appendChild(netNode)
+          }
+
+          if ( i == rowIndex + 1) {
+            rows[rowIndex + 1].classList.add('selectedBorder')
+            
+          }
+          
+
+          // console.log('hell')
+        }, 50 * index + this.state.neighbors.length * 50)
+
+
+      
+    })
+
+    // console.log(netTruePointArray)
+    this.setState({netTruePointArray})
+    
+  }
+
+  undoAnimation = (rows) => {
+    let data = [...this.state.data]
+    let neighborsReverse = [...this.state.neighbors].reverse();
+    // console.log('neighbors reverse', neighborsReverse)
+    neighborsReverse.forEach( (i, index ) => {
+      let trueColumn = rows[i].children[2].children[0].children[0]
+      setTimeout( () => {
+        // console.log('undo', index)
+        // data[i - 1][1].player_stats.stats.pop()
+        if (trueColumn.childNodes[1]) {
+          trueColumn.removeChild(trueColumn.childNodes[1])
+        }
+        
+        rows[i].classList.remove('bgRed')
+        rows[i].classList.remove('selectedBorder')
+        // this.stateSetter(data)
+      }, 50 * index)
+    })
+  }
+
+  updateProducts = () => {
+
+  }
+
   componentDidMount() {
     this.getDefaultPlayers();
     this.checkLoggedInStatus();
+    // this.rowClick(null, null, 0)
+    
   }
+
+  
 
   render() {
     return (
@@ -202,13 +366,22 @@ class App extends Component {
           <Navbar session={this.state.session} logout={this.logout}/>
 
           <How />
-  
-          <Stats change={this.checkBox} stats={this.state.stats} session={this.state.session} getStats={this.getAllTakenPlayersStats} editTable={this.editTable}/>
           
-          
+          <Stats change={this.checkBox} stats={this.state.stats} session={this.state.session} getStats={this.getAllTakenPlayersStats} editTable={this.editTable}  />
+
           <div id='table'>
-            <BootstrapTable  striped={true} bordered="true" hover="true" keyField='id' data={ this.state.products } columns={ this.state.columns }  />
+            <BootstrapTable
+              striped={true} 
+              bordered="true" 
+              hover="true" 
+              keyField='id' 
+              data={ this.state.products } 
+              columns={ this.state.columns } 
+              // defaultSorted={[{dataField: 'points', order: 'desc'}]} 
+              rowEvents={{onClick: this.rowClick}}
+              />
           </div>
+          
 
 
           <Route path='/draft' component={Draft} />
