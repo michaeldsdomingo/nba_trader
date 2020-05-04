@@ -10,7 +10,7 @@ import Draft from './Components/Draft';
 import { BrowserRouter as Router, Route, Link} from "react-router-dom";
 import How from './Components/How.js';
 import quickSort from './js/sort';
-import Test from './Components/Test.js'
+
 
 require('dotenv').config();
 
